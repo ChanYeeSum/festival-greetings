@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <title data-i18n="page.title">节日烟花祝福</title>
+    <link rel="icon" type="image/x-icon" href="./assert/icon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assert/icon.png" />
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   </head>
@@ -174,10 +176,13 @@
           </button>
           <button id="qrBtn" class="tool-btn" title="二维码">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7"/>
-              <rect x="14" y="3" width="7" height="7"/>
-              <rect x="3" y="14" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="3" width="6" height="6" rx="1"/>
+              <rect x="15" y="3" width="6" height="6" rx="1"/>
+              <rect x="3" y="15" width="6" height="6" rx="1"/>
+              <rect x="15" y="15" width="4" height="4"/>
+              <rect x="17" y="11" width="4" height="4"/>
+              <rect x="11" y="17" width="4" height="4"/>
+              <rect x="11" y="11" width="2" height="2"/>
             </svg>
             <span data-i18n="btn.qr">二维码</span>
           </button>
@@ -233,10 +238,13 @@
         </button>
         <button id="mobileQrBtn" class="mobile-tool-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="3" width="6" height="6" rx="1"/>
+            <rect x="15" y="3" width="6" height="6" rx="1"/>
+            <rect x="3" y="15" width="6" height="6" rx="1"/>
+            <rect x="15" y="15" width="4" height="4"/>
+            <rect x="17" y="11" width="4" height="4"/>
+            <rect x="11" y="17" width="4" height="4"/>
+            <rect x="11" y="11" width="2" height="2"/>
           </svg>
           <span data-i18n="btn.qr">二维码</span>
         </button>
@@ -322,13 +330,40 @@
       </div>
     </div>
 
-    <!-- 二维码弹窗 -->
+    <!-- 二维码海报弹窗 -->
     <div id="qrModal" class="qr-modal">
       <div class="qr-modal-content">
         <button id="qrModalClose" class="qr-modal-close">&times;</button>
-        <h3 data-i18n="qr.title">扫码分享祝福</h3>
-        <canvas id="qrCanvas" width="200" height="200"></canvas>
-        <p class="qr-hint" data-i18n="qr.hint">扫描二维码即可打开祝福页面</p>
+        
+        <!-- 海报区域 -->
+        <div class="qr-poster" id="qrPoster">
+          <div class="qr-poster-header">
+            <div class="qr-poster-logo">✦ 节日烟花 ✦</div>
+          </div>
+          <div class="qr-poster-body">
+            <h2 class="qr-poster-title" id="qrPosterTitle">新年快乐</h2>
+            <p class="qr-poster-message" id="qrPosterMessage">愿你在新的一年里心想事成</p>
+            <div class="qr-poster-qrcode">
+              <canvas id="qrCanvas" width="180" height="180"></canvas>
+            </div>
+            <p class="qr-poster-hint">扫码查看专属祝福</p>
+          </div>
+          <div class="qr-poster-footer">
+            <span id="qrPosterFrom">— 你的朋友</span>
+          </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="qr-actions">
+          <button id="qrDownloadBtn" class="qr-download-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>下载海报</span>
+          </button>
+        </div>
       </div>
     </div>
 

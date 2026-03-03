@@ -360,6 +360,7 @@ const I18N = {
     "btn.share": "复制祝福链接",
     "btn.export": "导出",
     "btn.qr": "二维码",
+    "btn.downloadQR": "下载二维码",
     "btn.settings": "设置",
     "btn.more": "更多",
     "btn.pause": "暂停动画",
@@ -421,6 +422,7 @@ const I18N = {
     "btn.share": "Copy link",
     "btn.export": "Export",
     "btn.qr": "QR code",
+    "btn.downloadQR": "Download QR",
     "btn.settings": "Settings",
     "btn.more": "More",
     "btn.pause": "Pause",
@@ -1206,11 +1208,32 @@ const QRCode = {
   }
 };
 
+// 预加载二维码中心图标
+const qrCenterIcon = new Image();
+qrCenterIcon.src = "./assert/icon.png";
+
 function showQRCode() {
   const modal = document.getElementById("qrModal");
   const qrCanvas = document.getElementById("qrCanvas");
   
   if (!modal || !qrCanvas) return;
+  
+  // 获取当前祝福信息
+  const name = document.getElementById("nameInput")?.value.trim() || "";
+  const festival = document.getElementById("festivalSelect")?.value.trim() || DEFAULT_FESTIVAL_KEY;
+  const message = document.getElementById("messageInput")?.value.trim() || "";
+  const from = document.getElementById("fromInput")?.value.trim() || "";
+  
+  // 更新海报内容
+  const { title, subtitle } = formatGreeting(name, festival, message);
+  
+  const posterTitle = document.getElementById("qrPosterTitle");
+  const posterMessage = document.getElementById("qrPosterMessage");
+  const posterFrom = document.getElementById("qrPosterFrom");
+  
+  if (posterTitle) posterTitle.textContent = title;
+  if (posterMessage) posterMessage.textContent = subtitle.length > 50 ? subtitle.substring(0, 50) + "..." : subtitle;
+  if (posterFrom) posterFrom.textContent = from ? `— ${from}` : "";
   
   // 使用 Base64 编码生成紧凑链接
   const data = getCompactGreetingData({ mode: "view" });
@@ -1224,7 +1247,7 @@ function showQRCode() {
   qr.make();
   
   const ctx = qrCanvas.getContext("2d");
-  const size = 200;
+  const size = 180;
   const cellSize = size / qr.getModuleCount();
   
   qrCanvas.width = size;
@@ -1244,7 +1267,153 @@ function showQRCode() {
     }
   }
   
+  // 在中心绘制项目图标
+  const centerSize = 40;
+  const centerX = size / 2;
+  const centerY = size / 2;
+  
+  // 绘制白色圆角背景
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.roundRect(centerX - centerSize / 2 - 4, centerY - centerSize / 2 - 4, centerSize + 8, centerSize + 8, 8);
+  ctx.fill();
+  
+  // 绘制图标（使用预加载的图片）
+  if (qrCenterIcon.complete && qrCenterIcon.naturalWidth > 0) {
+    ctx.drawImage(qrCenterIcon, centerX - centerSize / 2, centerY - centerSize / 2, centerSize, centerSize);
+  }
+  
   modal.classList.add("active");
+}
+
+function downloadQRCode() {
+  const qrCanvas = document.getElementById("qrCanvas");
+  const posterTitle = document.getElementById("qrPosterTitle")?.textContent || "";
+  const posterMessage = document.getElementById("qrPosterMessage")?.textContent || "";
+  const posterFrom = document.getElementById("qrPosterFrom")?.textContent || "";
+  
+  if (!qrCanvas) return;
+  
+  // 创建海报 canvas
+  const posterWidth = 400;
+  const posterHeight = 520;
+  const posterCanvas = document.createElement("canvas");
+  posterCanvas.width = posterWidth;
+  posterCanvas.height = posterHeight;
+  
+  const ctx = posterCanvas.getContext("2d");
+  
+  // 节日颜色配置
+  const config = FESTIVALS_CONFIG[currentFestivalKey] || FESTIVALS_CONFIG[DEFAULT_FESTIVAL_KEY];
+  const accentColor = config?.colors?.primary || "#f97316";
+  
+  // 背景
+  const bgGradient = ctx.createLinearGradient(0, 0, posterWidth, posterHeight);
+  bgGradient.addColorStop(0, "#0f172a");
+  bgGradient.addColorStop(0.5, "#1e293b");
+  bgGradient.addColorStop(1, "#0f172a");
+  ctx.fillStyle = bgGradient;
+  ctx.fillRect(0, 0, posterWidth, posterHeight);
+  
+  // 装饰光晕
+  const glow1 = ctx.createRadialGradient(50, 100, 0, 50, 100, 150);
+  glow1.addColorStop(0, accentColor + "30");
+  glow1.addColorStop(1, "transparent");
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, posterWidth, posterHeight);
+  
+  const glow2 = ctx.createRadialGradient(posterWidth - 50, posterHeight - 100, 0, posterWidth - 50, posterHeight - 100, 150);
+  glow2.addColorStop(0, accentColor + "20");
+  glow2.addColorStop(1, "transparent");
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, posterWidth, posterHeight);
+  
+  // Logo
+  ctx.font = "16px system-ui, -apple-system, sans-serif";
+  ctx.fillStyle = accentColor;
+  ctx.textAlign = "center";
+  ctx.fillText("✦ 节日烟花 ✦", posterWidth / 2, 45);
+  
+  // 标题
+  ctx.font = "bold 36px system-ui, -apple-system, sans-serif";
+  ctx.fillStyle = "#ffffff";
+  ctx.shadowColor = accentColor;
+  ctx.shadowBlur = 30;
+  ctx.fillText(posterTitle, posterWidth / 2, 110);
+  ctx.shadowBlur = 0;
+  
+  // 祝福语（自动换行）
+  ctx.font = "16px system-ui, -apple-system, sans-serif";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+  ctx.textAlign = "center";
+  
+  const maxWidth = posterWidth - 60;
+  const lines = wrapText(ctx, posterMessage, maxWidth);
+  let lineY = 150;
+  lines.forEach(line => {
+    ctx.fillText(line, posterWidth / 2, lineY);
+    lineY += 24;
+  });
+  
+  // 二维码背景
+  const qrSize = 200;
+  const qrX = (posterWidth - qrSize) / 2;
+  const qrY = lineY + 20;
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+  ctx.shadowBlur = 20;
+  ctx.beginPath();
+  ctx.roundRect(qrX - 12, qrY - 12, qrSize + 24, qrSize + 24, 16);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // 绘制二维码
+  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+  
+  // 提示文字
+  ctx.font = "13px system-ui, -apple-system, sans-serif";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+  ctx.textAlign = "center";
+  ctx.fillText("扫码查看专属祝福", posterWidth / 2, qrY + qrSize + 50);
+  
+  // 署名
+  if (posterFrom) {
+    ctx.font = "14px system-ui, -apple-system, sans-serif";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    ctx.fillText(posterFrom, posterWidth / 2, posterHeight - 40);
+  }
+  
+  // 下载
+  const link = document.createElement("a");
+  const festivalName = currentFestivalKey || "greeting";
+  link.download = `祝福海报_${festivalName}_${Date.now()}.png`;
+  link.href = posterCanvas.toDataURL("image/png");
+  link.click();
+}
+
+// 文字自动换行辅助函数
+function wrapText(ctx, text, maxWidth) {
+  const lines = [];
+  let currentLine = "";
+  
+  for (let i = 0; i < text.length; i++) {
+    const testLine = currentLine + text[i];
+    const metrics = ctx.measureText(testLine);
+    
+    if (metrics.width > maxWidth && currentLine.length > 0) {
+      lines.push(currentLine);
+      currentLine = text[i];
+    } else {
+      currentLine = testLine;
+    }
+  }
+  
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+  
+  return lines.length > 0 ? lines : [text];
 }
 
 function hideQRCode() {
@@ -2239,6 +2408,10 @@ window.addEventListener("DOMContentLoaded", () => {
         hideQRCode();
       }
     });
+  }
+  const qrDownloadBtn = document.getElementById("qrDownloadBtn");
+  if (qrDownloadBtn) {
+    qrDownloadBtn.addEventListener("click", downloadQRCode);
   }
 
   // PC端设置面板事件
