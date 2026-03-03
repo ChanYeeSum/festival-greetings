@@ -530,8 +530,92 @@ function getPreferredLang(queryLang) {
 }
 
 // -------- URL 参数解析 --------
+// -------- Base64 URL 安全编解码 --------
+const Base64URL = {
+  // 字符串 -> URL 安全 Base64
+  encode: function(str) {
+    try {
+      const base64 = btoa(unescape(encodeURIComponent(str)));
+      // 转为 URL 安全格式：+ -> -, / -> _, 去除 = 填充
+      return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    } catch (e) {
+      console.error('Base64 encode error:', e);
+      return '';
+    }
+  },
+  
+  // URL 安全 Base64 -> 字符串
+  decode: function(str) {
+    try {
+      // 恢复标准 Base64 格式
+      let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+      // 补齐 = 填充
+      const pad = base64.length % 4;
+      if (pad) {
+        base64 += '='.repeat(4 - pad);
+      }
+      return decodeURIComponent(escape(atob(base64)));
+    } catch (e) {
+      console.error('Base64 decode error:', e);
+      return '';
+    }
+  },
+  
+  // JSON 对象 -> URL 安全 Base64
+  encodeJSON: function(obj) {
+    try {
+      return this.encode(JSON.stringify(obj));
+    } catch (e) {
+      console.error('JSON encode error:', e);
+      return '';
+    }
+  },
+  
+  // URL 安全 Base64 -> JSON 对象
+  decodeJSON: function(str) {
+    try {
+      const json = this.decode(str);
+      return json ? JSON.parse(json) : null;
+    } catch (e) {
+      console.error('JSON decode error:', e);
+      return null;
+    }
+  }
+};
+
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
+  
+  // 检查是否有 Base64 编码的数据参数
+  const dataParam = params.get("d");
+  if (dataParam) {
+    const decodedData = Base64URL.decodeJSON(dataParam);
+    if (decodedData && typeof decodedData === 'object') {
+      // 支持紧凑格式（l, n, f, m, r...）和完整格式
+      const compactData = decodedData.n !== undefined || decodedData.l !== undefined;
+      if (compactData) {
+        return expandCompactData(decodedData);
+      }
+      // 完整格式
+      return {
+        lang: decodedData.lang || params.get("lang") || "",
+        name: decodedData.name || params.get("name") || "",
+        festival: decodedData.festival || params.get("festival") || "",
+        message: decodedData.message || params.get("message") || "",
+        from: decodedData.from || params.get("from") || "",
+        mode: decodedData.mode || params.get("mode") || "",
+        density: decodedData.density != null ? String(decodedData.density) : (params.get("density") || ""),
+        star: decodedData.star != null ? String(decodedData.star) : (params.get("star") || ""),
+        comet: decodedData.comet != null ? String(decodedData.comet) : (params.get("comet") || ""),
+        firework: decodedData.firework != null ? String(decodedData.firework) : (params.get("firework") || ""),
+        paused: decodedData.paused != null ? String(decodedData.paused) : (params.get("paused") || ""),
+        customEffect: decodedData.customEffect != null ? String(decodedData.customEffect) : (params.get("customEffect") || ""),
+        shapes: decodedData.shapes || params.get("shapes") || "",
+        bursts: decodedData.bursts || params.get("bursts") || "",
+      };
+    }
+  }
+  
   return {
     lang: params.get("lang") || "",
     name: params.get("name") || "",
@@ -631,6 +715,63 @@ function getCurrentGreetingParams(overrides = {}) {
   });
 
   return params;
+}
+
+// 构建紧凑的 Base64 编码数据对象
+function getCompactGreetingData(overrides = {}) {
+  const name = document.getElementById("nameInput")?.value.trim() || "";
+  const festival = document.getElementById("festivalSelect")?.value.trim() || "";
+  const message = document.getElementById("messageInput")?.value.trim() || "";
+  const from = document.getElementById("fromInput")?.value.trim() || "";
+
+  const data = {
+    l: currentLang || "zh",
+  };
+
+  if (name) data.n = name;
+  if (festival) data.f = festival;
+  if (message) data.m = message;
+  if (from) data.fr = from;
+  
+  data.d = fireworkDensity;
+  data.s = starBrightness;
+  data.c = cometEnabled ? 1 : 0;
+  data.w = fireworkEnabled ? 1 : 0;
+  data.p = animationPaused ? 1 : 0;
+  
+  if (customEffectEnabled) {
+    data.e = 1;
+    if (customShapes.length > 0) data.sh = customShapes;
+    if (customBurstEffects.length > 0) data.b = customBurstEffects;
+  }
+  
+  if (overrides.mode) {
+    data.o = overrides.mode;
+  }
+
+  return data;
+}
+
+// 从紧凑数据对象恢复参数
+function expandCompactData(data) {
+  if (!data || typeof data !== 'object') return {};
+  
+  return {
+    lang: data.l || "",
+    name: data.n || "",
+    festival: data.f || "",
+    message: data.m || "",
+    from: data.fr || "",
+    mode: data.o || "",
+    density: data.d != null ? String(data.d) : "",
+    star: data.s != null ? String(data.s) : "",
+    comet: data.c != null ? String(data.c) : "",
+    firework: data.w != null ? String(data.w) : "",
+    paused: data.p != null ? String(data.p) : "",
+    customEffect: data.e != null ? String(data.e) : "",
+    shapes: data.sh ? (Array.isArray(data.sh) ? data.sh.join(",") : data.sh) : "",
+    bursts: data.b ? (Array.isArray(data.b) ? data.b.join(",") : data.b) : "",
+  };
 }
 
 function applyThemeByFestival(festivalRaw) {
@@ -833,9 +974,14 @@ const debouncedSyncInputs = debounce(() => syncInputsToUrl(false), 150);
 
 // -------- 复制分享链接 --------
 async function copyShareLink() {
-  const url = buildAbsoluteUrlFromParams(getCurrentGreetingParams({ mode: "view" }));
+  // 使用 Base64 编码生成紧凑链接
+  const data = getCompactGreetingData({ mode: "view" });
+  const encoded = Base64URL.encodeJSON(data);
+  const url = window.location.pathname + "?d=" + encoded + window.location.hash;
+  const absoluteUrl = new URL(url, window.location.origin).toString();
+  
   try {
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(absoluteUrl);
     showToast(getText("toast.copied"));
   } catch (e) {
     showToast(getText("toast.copyFailed"));
@@ -1022,11 +1168,15 @@ function showQRCode() {
   
   if (!modal || !qrCanvas) return;
   
-  const url = buildAbsoluteUrlFromParams(getCurrentGreetingParams({ mode: "view" }));
+  // 使用 Base64 编码生成紧凑链接
+  const data = getCompactGreetingData({ mode: "view" });
+  const encoded = Base64URL.encodeJSON(data);
+  const url = window.location.pathname + "?d=" + encoded + window.location.hash;
+  const absoluteUrl = new URL(url, window.location.origin).toString();
   
   // 使用 qrcode-generator 库生成二维码
   const qr = qrcode(0, 'M');
-  qr.addData(url);
+  qr.addData(absoluteUrl);
   qr.make();
   
   const ctx = qrCanvas.getContext("2d");
