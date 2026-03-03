@@ -720,23 +720,14 @@ function updateTextsFromParams() {
   if (timeText) {
     const now = new Date();
     const year = now.getFullYear();
-    const timeStr =
-      currentLang === "en"
-        ? now.toLocaleString("en-US", {
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })
-        : now.toLocaleString("zh-CN", {
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const timeStr = `${year}-${month}-${day} ${hours}:${minutes}`;
     timeText.textContent = footerTag
-      ? `${year} · ${timeStr} · ${footerTag}`
-      : `${year} · ${timeStr}`;
+      ? `${timeStr} · ${footerTag}`
+      : timeStr;
   }
 
   if (fromText) {
