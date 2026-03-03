@@ -24,8 +24,8 @@ const FESTIVALS_CONFIG = {
     effects: {
       intervalRange: [30, 55],
       heightRange: [0.18, 0.52],
-      particleMultiplier: 1.2,
-      burstShape: "sphere",
+      particleMultiplier: 1.3,
+      burstShape: "random",
       starDensity: 1.0,
       cometCount: 2,
     },
@@ -118,7 +118,7 @@ const FESTIVALS_CONFIG = {
     effects: {
       intervalRange: [35, 70],
       heightRange: [0.12, 0.4],
-      particleMultiplier: 1.3,
+      particleMultiplier: 1.4,
       burstShape: "ring",
       starDensity: 1.2,
       cometCount: 2,
@@ -181,7 +181,7 @@ const FESTIVALS_CONFIG = {
     effects: {
       intervalRange: [40, 80],
       heightRange: [0.15, 0.35],
-      particleMultiplier: 1.1,
+      particleMultiplier: 1.5,
       burstShape: "heart",
       starDensity: 1.2,
       cometCount: 2,
@@ -211,7 +211,7 @@ const FESTIVALS_CONFIG = {
     effects: {
       intervalRange: [45, 85],
       heightRange: [0.1, 0.38],
-      particleMultiplier: 1.0,
+      particleMultiplier: 1.3,
       burstShape: "star",
       starDensity: 1.5,
       cometCount: 2,
@@ -257,15 +257,16 @@ const I18N = {
   zh: {
     "page.title": "节日烟花祝福",
     "header.logo": "✦ 节日烟花 ✦",
-    "field.to": "祝福给谁：",
-    "field.festival": "节日：",
-    "field.message": "祝福语：",
-    "field.from": "署名：",
+    "section.create": "创建祝福",
+    "field.to": "祝福给谁",
+    "field.festival": "选择节日",
+    "field.message": "祝福语",
+    "field.from": "署名",
     "placeholder.to": "在这里输入 TA 的名字",
     "placeholder.message": "输入自定义祝福（可选）",
     "placeholder.from": "例如：你的朋友",
     "btn.share": "复制祝福链接",
-    "btn.export": "导出图片",
+    "btn.export": "导出",
     "btn.qr": "二维码",
     "btn.settings": "设置",
     "btn.more": "更多",
@@ -294,15 +295,16 @@ const I18N = {
   en: {
     "page.title": "Festive Fireworks Greeting",
     "header.logo": "✦ Festive Fireworks ✦",
-    "field.to": "To:",
-    "field.festival": "Festival:",
-    "field.message": "Message:",
-    "field.from": "From:",
+    "section.create": "Create Greeting",
+    "field.to": "To",
+    "field.festival": "Festival",
+    "field.message": "Message",
+    "field.from": "From",
     "placeholder.to": "Enter their name here",
     "placeholder.message": "Custom message (optional)",
     "placeholder.from": "e.g. Your friend",
     "btn.share": "Copy link",
-    "btn.export": "Export image",
+    "btn.export": "Export",
     "btn.qr": "QR code",
     "btn.settings": "Settings",
     "btn.more": "More",
@@ -660,7 +662,30 @@ function syncInputsToUrl(pushState = false) {
   }
 
   updateTextsFromParams();
+  animateCardUpdate();
 }
+
+// 卡片更新动画
+function animateCardUpdate() {
+  const card = document.querySelector(".greeting-card");
+  if (card) {
+    card.classList.remove("card-updated");
+    void card.offsetWidth; // 触发重排
+    card.classList.add("card-updated");
+  }
+}
+
+// 防抖函数
+function debounce(fn, delay) {
+  let timer = null;
+  return function(...args) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+// 防抖版本的同步函数
+const debouncedSyncInputs = debounce(() => syncInputsToUrl(false), 150);
 
 // -------- 复制分享链接 --------
 async function copyShareLink() {
@@ -1214,8 +1239,21 @@ function createParticles(x, y, color) {
   const effects = config?.effects || {};
   const base = 48;
   let count = Math.floor(base * (effects.particleMultiplier || 1));
-  const shape = effects.burstShape || "sphere";
+  let shape = effects.burstShape || "sphere";
 
+  // 随机模式：从多种形状中随机选择
+  if (shape === "random") {
+    const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star"];
+    shape = shapes[Math.floor(Math.random() * shapes.length)];
+  }
+
+  // 心形绽放
+  if (shape === "heart") {
+    createHeartParticles(x, y, color, count);
+    return;
+  }
+
+  // 环形绽放
   if (shape === "ring") {
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count;
@@ -1232,6 +1270,7 @@ function createParticles(x, y, color) {
     return;
   }
 
+  // 双层绽放
   if (shape === "double") {
     for (let i = 0; i < count; i++) {
       const angle = random(0, Math.PI * 2);
@@ -1249,6 +1288,7 @@ function createParticles(x, y, color) {
     return;
   }
 
+  // 垂柳形
   if (shape === "willow") {
     for (let i = 0; i < count; i++) {
       const angle = random(-Math.PI, 0);
@@ -1265,9 +1305,111 @@ function createParticles(x, y, color) {
     return;
   }
 
+  // 菊花形
+  if (shape === "chrysanthemum") {
+    const arms = 12;
+    const particlesPerArm = Math.floor(count / arms);
+    for (let arm = 0; arm < arms; arm++) {
+      const baseAngle = (Math.PI * 2 * arm) / arms;
+      for (let i = 0; i < particlesPerArm; i++) {
+        const angle = baseAngle + random(-0.15, 0.15);
+        const speed = 3 + (i / particlesPerArm) * 5;
+        particles.push(
+          new Particle(x, y, color, {
+            angle,
+            speed,
+            gravity: 0.7,
+            friction: 0.95,
+            decay: random(0.01, 0.018),
+          })
+        );
+      }
+    }
+    return;
+  }
+
+  // 星形绽放
+  if (shape === "star") {
+    const points = 5;
+    const particlesPerPoint = Math.floor(count / points);
+    for (let point = 0; point < points; point++) {
+      const baseAngle = (Math.PI * 2 * point) / points - Math.PI / 2;
+      // 外尖端
+      for (let i = 0; i < particlesPerPoint * 0.6; i++) {
+        const angle = baseAngle + random(-0.1, 0.1);
+        particles.push(
+          new Particle(x, y, color, {
+            angle,
+            speed: random(6, 9),
+            gravity: 0.6,
+            friction: 0.96,
+          })
+        );
+      }
+      // 内凹部分
+      const innerAngle = baseAngle + Math.PI / points;
+      for (let i = 0; i < particlesPerPoint * 0.4; i++) {
+        const angle = innerAngle + random(-0.1, 0.1);
+        particles.push(
+          new Particle(x, y, color, {
+            angle,
+            speed: random(3, 5),
+            gravity: 0.6,
+            friction: 0.96,
+          })
+        );
+      }
+    }
+    return;
+  }
+
   // 默认球状
   while (count--) {
     particles.push(new Particle(x, y, color));
+  }
+}
+
+// 心形粒子生成
+function createHeartParticles(x, y, color, count) {
+  // 心形参数方程
+  // x = 16 * sin³(t)
+  // y = 13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t)
+  const scale = 0.5;
+  
+  for (let i = 0; i < count; i++) {
+    const t = (Math.PI * 2 * i) / count;
+    
+    // 心形坐标（归一化）
+    const heartX = 16 * Math.pow(Math.sin(t), 3);
+    const heartY = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+    
+    // 转换为角度和速度
+    const angle = Math.atan2(heartY, heartX);
+    const dist = Math.sqrt(heartX * heartX + heartY * heartY);
+    const speed = (dist / 18) * 6 + random(0, 2);
+    
+    particles.push(
+      new Particle(x, y, color, {
+        angle,
+        speed,
+        gravity: 0.4,
+        friction: 0.97,
+        decay: random(0.008, 0.015),
+      })
+    );
+  }
+  
+  // 添加中心爆发
+  for (let i = 0; i < count * 0.3; i++) {
+    particles.push(
+      new Particle(x, y, color, {
+        angle: random(0, Math.PI * 2),
+        speed: random(1, 3),
+        gravity: 0.3,
+        friction: 0.98,
+        decay: random(0.012, 0.02),
+      })
+    );
   }
 }
 
@@ -1479,18 +1621,18 @@ window.addEventListener("DOMContentLoaded", () => {
   const shareBtn = document.getElementById("shareBtn");
 
   if (nameInput) {
-    nameInput.addEventListener("input", () => syncInputsToUrl(false));
+    nameInput.addEventListener("input", debouncedSyncInputs);
   }
   if (festivalSelect) {
     festivalSelect.addEventListener("change", () => syncInputsToUrl(false));
   }
   const messageInput = document.getElementById("messageInput");
   if (messageInput) {
-    messageInput.addEventListener("input", () => syncInputsToUrl(false));
+    messageInput.addEventListener("input", debouncedSyncInputs);
   }
   const fromInput = document.getElementById("fromInput");
   if (fromInput) {
-    fromInput.addEventListener("input", () => syncInputsToUrl(false));
+    fromInput.addEventListener("input", debouncedSyncInputs);
   }
   if (shareBtn) {
     shareBtn.addEventListener("click", copyShareLink);
@@ -1637,6 +1779,121 @@ window.addEventListener("DOMContentLoaded", () => {
         makeSameBtn.style.display = "none";
       }
     }
+  })();
+
+  // 移动端事件初始化
+  (function initMobileEvents() {
+    const editDrawer = document.getElementById("editDrawer");
+    const drawerOverlay = document.getElementById("drawerOverlay");
+    const mobileEditBtn = document.getElementById("mobileEditBtn");
+    const closeDrawerBtn = document.getElementById("closeDrawerBtn");
+    const mobileShareBtn = document.getElementById("mobileShareBtn");
+    const mobileMoreBtn = document.getElementById("mobileMoreBtn");
+    const mobileMorePanel = document.getElementById("mobileMorePanel");
+    const mobileExportBtn = document.getElementById("mobileExportBtn");
+    const mobileQrBtn = document.getElementById("mobileQrBtn");
+    const mobileSettingsBtn = document.getElementById("mobileSettingsBtn");
+
+    // 移动端输入元素
+    const nameInputMobile = document.getElementById("nameInputMobile");
+    const festivalSelectMobile = document.getElementById("festivalSelectMobile");
+    const messageInputMobile = document.getElementById("messageInputMobile");
+    const fromInputMobile = document.getElementById("fromInputMobile");
+
+    function openDrawer() {
+      if (!editDrawer || !drawerOverlay) return;
+      editDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+      document.body.style.overflow = "hidden";
+      
+      // 同步 PC 端输入到移动端
+      if (nameInputMobile && nameInput) nameInputMobile.value = nameInput.value;
+      if (festivalSelectMobile && festivalSelect) festivalSelectMobile.value = festivalSelect.value;
+      if (messageInputMobile && messageInput) messageInputMobile.value = messageInput.value;
+      if (fromInputMobile && fromInput) fromInputMobile.value = fromInput.value;
+    }
+
+    function closeDrawer() {
+      if (!editDrawer || !drawerOverlay) return;
+      editDrawer.classList.remove("active");
+      drawerOverlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function toggleMobileMore() {
+      if (!mobileMorePanel) return;
+      mobileMorePanel.classList.toggle("active");
+    }
+
+    if (mobileEditBtn) {
+      mobileEditBtn.addEventListener("click", openDrawer);
+    }
+    if (closeDrawerBtn) {
+      closeDrawerBtn.addEventListener("click", closeDrawer);
+    }
+    if (drawerOverlay) {
+      drawerOverlay.addEventListener("click", closeDrawer);
+    }
+    if (mobileShareBtn) {
+      mobileShareBtn.addEventListener("click", copyShareLink);
+    }
+    if (mobileMoreBtn) {
+      mobileMoreBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMore();
+      });
+    }
+    if (mobileExportBtn) {
+      mobileExportBtn.addEventListener("click", () => {
+        exportCardAsImage();
+        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
+      });
+    }
+    if (mobileQrBtn) {
+      mobileQrBtn.addEventListener("click", () => {
+        showQRCode();
+        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
+      });
+    }
+    if (mobileSettingsBtn) {
+      mobileSettingsBtn.addEventListener("click", () => {
+        showSettings();
+        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
+      });
+    }
+
+    // 移动端输入同步到 PC 端
+    if (nameInputMobile) {
+      nameInputMobile.addEventListener("input", (e) => {
+        if (nameInput) nameInput.value = e.target.value;
+        debouncedSyncInputs();
+      });
+    }
+    if (festivalSelectMobile) {
+      festivalSelectMobile.addEventListener("change", (e) => {
+        if (festivalSelect) festivalSelect.value = e.target.value;
+        syncInputsToUrl(false);
+      });
+    }
+    if (messageInputMobile) {
+      messageInputMobile.addEventListener("input", (e) => {
+        if (messageInput) messageInput.value = e.target.value;
+        debouncedSyncInputs();
+      });
+    }
+    if (fromInputMobile) {
+      fromInputMobile.addEventListener("input", (e) => {
+        if (fromInput) fromInput.value = e.target.value;
+        debouncedSyncInputs();
+      });
+    }
+
+    // 点击外部关闭更多菜单
+    document.addEventListener("click", (e) => {
+      if (mobileMorePanel && !mobileMorePanel.contains(e.target) && e.target !== mobileMoreBtn) {
+        mobileMorePanel.classList.remove("active");
+      }
+    });
   })();
 
   initFireworks();
