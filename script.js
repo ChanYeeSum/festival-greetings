@@ -10,9 +10,16 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [10, 40],
     },
     copy: {
-      title: "新年快乐",
-      subtitleTemplate: "{name}，新的一年愿你心想事成，万事胜意。",
-      footerTag: "新岁启封 · 万象更新",
+      zh: {
+        title: "新年快乐",
+        subtitleTemplate: "{name}，新的一年愿你心想事成，万事胜意。",
+        footerTag: "新岁启封 · 万象更新",
+      },
+      en: {
+        title: "Happy New Year",
+        subtitleTemplate: "{name}, wishing you a bright year ahead—joy and success!",
+        footerTag: "New year · New beginnings",
+      },
     },
     effects: {
       intervalRange: [30, 55],
@@ -33,9 +40,17 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [0, 25],
     },
     copy: {
-      title: "春节快乐",
-      subtitleTemplate: "{name}，愿阖家团圆，平安喜乐，龙行大运。",
-      footerTag: "爆竹声中一岁除",
+      zh: {
+        title: "春节快乐",
+        subtitleTemplate: "{name}，愿阖家团圆，平安喜乐，龙行大运。",
+        footerTag: "爆竹声中一岁除",
+      },
+      en: {
+        title: "Happy Spring Festival",
+        subtitleTemplate:
+          "{name}, wishing you reunion, peace, and prosperity this Spring Festival.",
+        footerTag: "Spring Festival · Blessings",
+      },
     },
     effects: {
       intervalRange: [25, 45],
@@ -56,9 +71,17 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [40, 80],
     },
     copy: {
-      title: "中秋快乐",
-      subtitleTemplate: "{name}，愿人月两圆，所念之人皆在身边。",
-      footerTag: "花好月圆 · 人长久",
+      zh: {
+        title: "中秋快乐",
+        subtitleTemplate: "{name}，愿人月两圆，所念之人皆在身边。",
+        footerTag: "花好月圆 · 人长久",
+      },
+      en: {
+        title: "Happy Mid-Autumn Festival",
+        subtitleTemplate:
+          "{name}, may the moon be full and your loved ones be near.",
+        footerTag: "Full moon · Togetherness",
+      },
     },
     effects: {
       intervalRange: [40, 80],
@@ -80,9 +103,17 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [300, 360],
     },
     copy: {
-      title: "元宵快乐",
-      subtitleTemplate: "{name}，愿你团圆相聚，诸事皆圆满。",
-      footerTag: "良宵灯火 · 万家团圆",
+      zh: {
+        title: "元宵快乐",
+        subtitleTemplate: "{name}，愿你团圆相聚，诸事皆圆满。",
+        footerTag: "良宵灯火 · 万家团圆",
+      },
+      en: {
+        title: "Happy Lantern Festival",
+        subtitleTemplate:
+          "{name}, wishing you a warm reunion and a bright year ahead.",
+        footerTag: "Lanterns · Reunion",
+      },
     },
     effects: {
       intervalRange: [35, 70],
@@ -104,9 +135,17 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [0, 45],
     },
     copy: {
-      title: "国庆快乐",
-      subtitleTemplate: "{name}，愿祖国繁荣昌盛，国泰民安。",
-      footerTag: "盛世华诞 · 举国同庆",
+      zh: {
+        title: "国庆快乐",
+        subtitleTemplate: "{name}，愿祖国繁荣昌盛，国泰民安。",
+        footerTag: "盛世华诞 · 举国同庆",
+      },
+      en: {
+        title: "Happy National Day",
+        subtitleTemplate:
+          "{name}, wishing peace and prosperity, and a joyful holiday.",
+        footerTag: "National Day · Celebration",
+      },
     },
     effects: {
       intervalRange: [30, 60],
@@ -127,9 +166,17 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [320, 360],
     },
     copy: {
-      title: "情人节快乐",
-      subtitleTemplate: "{name}，愿有情人终成眷属，爱意永存。",
-      footerTag: "花开并蒂 · 情定三生",
+      zh: {
+        title: "情人节快乐",
+        subtitleTemplate: "{name}，愿有情人终成眷属，爱意永存。",
+        footerTag: "花开并蒂 · 情定三生",
+      },
+      en: {
+        title: "Happy Valentine's Day",
+        subtitleTemplate:
+          "{name}, may love find you, keep you, and warm you—always.",
+        footerTag: "Love · Forever",
+      },
     },
     effects: {
       intervalRange: [40, 80],
@@ -150,9 +197,16 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [100, 150],
     },
     copy: {
-      title: "圣诞快乐",
-      subtitleTemplate: "{name}，愿平安喜乐，幸福相伴。",
-      footerTag: "铃儿响叮当 · 平安夜未央",
+      zh: {
+        title: "圣诞快乐",
+        subtitleTemplate: "{name}，愿平安喜乐，幸福相伴。",
+        footerTag: "铃儿响叮当 · 平安夜未央",
+      },
+      en: {
+        title: "Merry Christmas",
+        subtitleTemplate: "{name}, wishing you peace, joy, and warmth this season.",
+        footerTag: "Peace · Joy · Love",
+      },
     },
     effects: {
       intervalRange: [45, 85],
@@ -173,9 +227,16 @@ const FESTIVALS_CONFIG = {
       fireworksHueRange: [180, 260],
     },
     copy: {
-      title: "节日快乐",
-      subtitleTemplate: "{name}，愿你被世界温柔以待。",
-      footerTag: "美好如期而至",
+      zh: {
+        title: "节日快乐",
+        subtitleTemplate: "{name}，愿你被世界温柔以待。",
+        footerTag: "美好如期而至",
+      },
+      en: {
+        title: "Happy Holidays",
+        subtitleTemplate: "{name}, may you be treated gently by the world.",
+        footerTag: "Warm wishes",
+      },
     },
     effects: {
       intervalRange: [35, 75],
@@ -190,11 +251,142 @@ const FESTIVALS_CONFIG = {
 
 const DEFAULT_FESTIVAL_KEY = "节日快乐";
 let currentFestivalKey = DEFAULT_FESTIVAL_KEY;
+let currentLang = "zh";
+
+const I18N = {
+  zh: {
+    "page.title": "节日烟花祝福",
+    "header.logo": "✦ 节日烟花 ✦",
+    "field.to": "祝福给谁：",
+    "field.festival": "节日：",
+    "field.message": "祝福语：",
+    "field.from": "署名：",
+    "placeholder.to": "在这里输入 TA 的名字",
+    "placeholder.message": "输入自定义祝福（可选）",
+    "placeholder.from": "例如：你的朋友",
+    "btn.share": "复制祝福链接",
+    "btn.export": "导出图片",
+    "btn.qr": "二维码",
+    "btn.settings": "设置",
+    "btn.pause": "暂停动画",
+    "btn.resume": "继续动画",
+    "btn.makeSame": "制作同款祝福",
+    "footer.tipPrefix": "提示：在地址栏中使用",
+    "footer.tipSuffix": "即可直接生成专属祝福。",
+    "qr.title": "扫码分享祝福",
+    "qr.hint": "扫描二维码即可打开祝福页面",
+    "settings.title": "动画设置",
+    "settings.lang": "语言",
+    "settings.density": "烟花密度",
+    "settings.star": "星空亮度",
+    "settings.comet": "显示彗星",
+    "settings.firework": "显示烟花",
+    "prompt.title": "想制作同款祝福吗？",
+    "prompt.subtitle":
+      "你可以在编辑面板里改名字、节日、祝福语和特效设置，然后生成专属链接分享。",
+    "prompt.yes": "是的，去制作",
+    "prompt.no": "继续观看",
+  },
+  en: {
+    "page.title": "Festive Fireworks Greeting",
+    "header.logo": "✦ Festive Fireworks ✦",
+    "field.to": "To:",
+    "field.festival": "Festival:",
+    "field.message": "Message:",
+    "field.from": "From:",
+    "placeholder.to": "Enter their name here",
+    "placeholder.message": "Custom message (optional)",
+    "placeholder.from": "e.g. Your friend",
+    "btn.share": "Copy link",
+    "btn.export": "Export image",
+    "btn.qr": "QR code",
+    "btn.settings": "Settings",
+    "btn.pause": "Pause",
+    "btn.resume": "Resume",
+    "btn.makeSame": "Make one like this",
+    "footer.tipPrefix": "Tip: use",
+    "footer.tipSuffix": "in the address bar to generate a greeting.",
+    "qr.title": "Scan to share",
+    "qr.hint": "Scan the QR code to open this greeting",
+    "settings.title": "Animation settings",
+    "settings.lang": "Language",
+    "settings.density": "Fireworks density",
+    "settings.star": "Star brightness",
+    "settings.comet": "Show comets",
+    "settings.firework": "Show fireworks",
+    "prompt.title": "Want to make one like this?",
+    "prompt.subtitle":
+      "You can edit the name, festival, message, and effects, then share your own link.",
+    "prompt.yes": "Yes, let's make it",
+    "prompt.no": "Keep watching",
+  },
+};
+
+const FESTIVAL_LABELS = {
+  en: {
+    新年快乐: "Happy New Year",
+    春节快乐: "Happy Spring Festival",
+    中秋快乐: "Happy Mid-Autumn Festival",
+    元宵快乐: "Happy Lantern Festival",
+    国庆快乐: "Happy National Day",
+    情人节快乐: "Happy Valentine's Day",
+    圣诞快乐: "Merry Christmas",
+    节日快乐: "Happy Holidays",
+  },
+};
+
+function getText(key) {
+  const langPack = I18N[currentLang] || I18N.zh;
+  return langPack[key] || I18N.zh[key] || key;
+}
+
+function applyI18n() {
+  document.documentElement.lang = currentLang === "en" ? "en" : "zh-CN";
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (!key) return;
+    el.textContent = getText(key);
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (!key) return;
+    el.setAttribute("placeholder", getText(key));
+  });
+
+  const titleEl = document.querySelector("title[data-i18n]");
+  if (titleEl) {
+    document.title = getText(titleEl.getAttribute("data-i18n"));
+  }
+
+  // 节日下拉显示文本（value 保持中文 key，便于配置表匹配）
+  const festivalSelect = document.getElementById("festivalSelect");
+  if (festivalSelect) {
+    const labelMap = FESTIVAL_LABELS[currentLang] || null;
+    Array.from(festivalSelect.options).forEach((opt) => {
+      const key = opt.value;
+      if (labelMap && labelMap[key]) {
+        opt.textContent = labelMap[key];
+      } else {
+        opt.textContent = key;
+      }
+    });
+  }
+}
+
+function getPreferredLang(queryLang) {
+  const v = (queryLang || "").toLowerCase().trim();
+  if (v === "en" || v === "zh") return v;
+  const nav = (navigator.language || "").toLowerCase();
+  return nav.startsWith("en") ? "en" : "zh";
+}
 
 // -------- URL 参数解析 --------
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
   return {
+    lang: params.get("lang") || "",
     name: params.get("name") || "",
     festival: params.get("festival") || "",
     message: params.get("message") || "",
@@ -264,18 +456,21 @@ function formatGreeting(name, festival, customMessage) {
 
   const config = FESTIVALS_CONFIG[safeFestival] || FESTIVALS_CONFIG[DEFAULT_FESTIVAL_KEY];
 
-  const title = config.copy.title || safeFestival;
+  const copyPack = config.copy?.[currentLang] || config.copy?.zh || {};
+  const title = copyPack.title || safeFestival;
 
-  let template = (customMessage || "").trim() || config.copy.subtitleTemplate;
+  let template = (customMessage || "").trim() || copyPack.subtitleTemplate || "";
   if (!template.includes("{name}")) {
-    template = `{name}，${template}`;
+    template =
+      currentLang === "en" ? `{name}, ${template}` : `{name}，${template}`;
   }
   const subtitle = template.replace("{name}", safeName);
 
   return {
     title,
     subtitle,
-    footerTag: config.copy.footerTag || "",
+    footerTag: copyPack.footerTag || "",
+    safeName,
   };
 }
 
@@ -284,7 +479,11 @@ function updateTextsFromParams() {
 
   applyThemeByFestival(festival);
 
-  const { title, subtitle, footerTag } = formatGreeting(name, festival, message);
+  const { title, subtitle, footerTag, safeName } = formatGreeting(
+    name,
+    festival,
+    message
+  );
 
   const titleText = document.getElementById("titleText");
   const subtitleText = document.getElementById("subtitleText");
@@ -298,20 +497,34 @@ function updateTextsFromParams() {
   }
 
   if (subtitleText) {
-    const namePart = subtitle.split("，")[0];
-    const restPart = subtitle.slice(namePart.length);
-    subtitleText.innerHTML = `<span class="subtitle-highlight">${namePart}</span>${restPart}`;
+    const escapedName = safeName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(`^${escapedName}`);
+    if (re.test(subtitle)) {
+      subtitleText.innerHTML = `<span class="subtitle-highlight">${safeName}</span>${subtitle.slice(
+        safeName.length
+      )}`;
+    } else {
+      subtitleText.textContent = subtitle;
+    }
   }
 
   if (timeText) {
     const now = new Date();
     const year = now.getFullYear();
-    const timeStr = now.toLocaleString("zh-CN", {
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const timeStr =
+      currentLang === "en"
+        ? now.toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        : now.toLocaleString("zh-CN", {
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
     timeText.textContent = footerTag
       ? `${year} · ${timeStr} · ${footerTag}`
       : `${year} · ${timeStr}`;
@@ -319,7 +532,7 @@ function updateTextsFromParams() {
 
   if (fromText) {
     const safeFrom = (from || "").trim();
-    fromText.textContent = safeFrom ? `—— ${safeFrom}` : "";
+    fromText.textContent = safeFrom ? `— ${safeFrom}` : "";
   }
 
   if (nameInput && name) {
@@ -357,6 +570,9 @@ function syncInputsToUrl(pushState = false) {
   const from = document.getElementById("fromInput")?.value.trim() || "";
 
   const params = new URLSearchParams(window.location.search);
+  if (currentLang) {
+    params.set("lang", currentLang);
+  }
   if (name) {
     params.set("name", name);
   } else {
@@ -397,6 +613,7 @@ async function copyShareLink() {
   const params = new URLSearchParams(window.location.search);
   // 分享链接默认进入“观看模式”（隐藏面板）
   params.set("mode", "view");
+  params.set("lang", currentLang || "zh");
 
   // 写入当前动画设置（更多参数）
   params.set("density", String(fireworkDensity));
@@ -637,7 +854,9 @@ function toggleAnimation() {
   animationPaused = !animationPaused;
   const btn = document.getElementById("pauseBtn");
   if (btn) {
-    btn.textContent = animationPaused ? "继续动画" : "暂停动画";
+    btn.textContent = animationPaused
+      ? getText("btn.resume")
+      : getText("btn.pause");
   }
 }
 
