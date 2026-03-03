@@ -2034,4 +2034,21 @@ window.addEventListener("DOMContentLoaded", () => {
   })();
 
   initFireworks();
+
+  // 获取访问统计
+  async function fetchStats() {
+    try {
+      const res = await fetch('./stats.json?t=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        const pvEl = document.getElementById('pvCount');
+        const uvEl = document.getElementById('uvCount');
+        if (pvEl) pvEl.textContent = data.total_views || 0;
+        if (uvEl) uvEl.textContent = data.total_uniques || 0;
+      }
+    } catch (e) {
+      // 静默失败
+    }
+  }
+  fetchStats();
 });

@@ -1048,7 +1048,7 @@ body.view-only .floating-make-btn {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.pv-stats span {
+.pv-stats > span {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -1058,8 +1058,8 @@ body.view-only .floating-make-btn {
   opacity: 0.4;
 }
 
-#busuanzi_value_site_pv,
-#busuanzi_value_site_uv {
+#pvCount,
+#uvCount {
   color: var(--accent);
   font-weight: 600;
 }
@@ -1069,7 +1069,7 @@ body.view-only .floating-make-btn {
     bottom: 68px;
     font-size: 11px;
   }
-  
+
   body.view-only .pv-stats {
     bottom: 12px;
   }
