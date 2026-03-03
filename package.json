@@ -1,0 +1,12 @@
+{
+  "name": "festival-fireworks-greeting",
+  "version": "1.0.0",
+  "private": true,
+  "description": "一个带节日烟花效果的网页，通过 URL 参数为指定的人生成祝福。",
+  "scripts": {
+    "start": "serve ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}
