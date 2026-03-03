@@ -25,7 +25,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [30, 55],
       heightRange: [0.18, 0.52],
       particleMultiplier: 1.3,
-      burstShape: "random",
+      burstShapes: ["sphere", "chrysanthemum", "double", "scatter", "ring"],
       starDensity: 1.0,
       cometCount: 2,
     },
@@ -56,7 +56,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [25, 45],
       heightRange: [0.15, 0.42],
       particleMultiplier: 1.5,
-      burstShape: "double",
+      burstShapes: ["double", "chrysanthemum", "scatter", "ring", "doubleBurst"],
       starDensity: 0.9,
       cometCount: 1,
     },
@@ -87,7 +87,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [40, 80],
       heightRange: [0.1, 0.3],
       particleMultiplier: 1.1,
-      burstShape: "willow",
+      burstShapes: ["willow", "ring", "chrysanthemum"],
       starDensity: 1.4,
       cometCount: 3,
       showMoon: true,
@@ -119,7 +119,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [35, 70],
       heightRange: [0.12, 0.4],
       particleMultiplier: 1.4,
-      burstShape: "ring",
+      burstShapes: ["ring", "double", "chrysanthemum", "scatter"],
       starDensity: 1.2,
       cometCount: 2,
       lanternGlow: true,
@@ -212,7 +212,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [45, 85],
       heightRange: [0.1, 0.38],
       particleMultiplier: 1.3,
-      burstShape: "star",
+      burstShapes: ["star", "chrysanthemum", "sphere", "ring"],
       starDensity: 1.5,
       cometCount: 2,
     },
@@ -242,7 +242,7 @@ const FESTIVALS_CONFIG = {
       intervalRange: [35, 75],
       heightRange: [0.12, 0.45],
       particleMultiplier: 1.0,
-      burstShape: "sphere",
+      burstShapes: ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst"],
       starDensity: 1.0,
       cometCount: 2,
     },
@@ -982,19 +982,6 @@ function applySettingsFromQuery() {
   }
 }
 
-function showSettings() {
-  const modal = document.getElementById("settingsModal");
-  if (modal) {
-    modal.classList.add("active");
-  }
-}
-
-function hideSettings() {
-  const modal = document.getElementById("settingsModal");
-  if (modal) {
-    modal.classList.remove("active");
-  }
-}
 let canvas = null;
 let ctx = null;
 
@@ -1239,17 +1226,27 @@ function createParticles(x, y, color) {
   const effects = config?.effects || {};
   const base = 48;
   let count = Math.floor(base * (effects.particleMultiplier || 1));
-  let shape = effects.burstShape || "sphere";
+  let shape;
 
-  // 随机模式：从多种形状中随机选择
-  if (shape === "random") {
-    const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star"];
+  // 支持 burstShapes 数组（随机选择）或单一 burstShape 或 "random"
+  if (effects.burstShapes && Array.isArray(effects.burstShapes)) {
+    shape = effects.burstShapes[Math.floor(Math.random() * effects.burstShapes.length)];
+  } else if (effects.burstShape === "random") {
+    const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst"];
     shape = shapes[Math.floor(Math.random() * shapes.length)];
+  } else {
+    shape = effects.burstShape || "sphere";
   }
 
   // 心形绽放
   if (shape === "heart") {
     createHeartParticles(x, y, color, count);
+    return;
+  }
+  
+  // 二连炸效果
+  if (shape === "doubleBurst") {
+    createDoubleBurst(x, y, color, count);
     return;
   }
 
@@ -1363,6 +1360,28 @@ function createParticles(x, y, color) {
     return;
   }
 
+  // 散射效果（快速多方向爆发）
+  if (shape === "scatter") {
+    const arms = 16;
+    const particlesPerArm = Math.floor(count / arms);
+    for (let arm = 0; arm < arms; arm++) {
+      const baseAngle = (Math.PI * 2 * arm) / arms;
+      for (let i = 0; i < particlesPerArm; i++) {
+        const speed = random(5, 10);
+        particles.push(
+          new Particle(x, y, color, {
+            angle: baseAngle + random(-0.05, 0.05),
+            speed,
+            gravity: 0.5,
+            friction: 0.94,
+            decay: random(0.01, 0.02),
+          })
+        );
+      }
+    }
+    return;
+  }
+
   // 默认球状
   while (count--) {
     particles.push(new Particle(x, y, color));
@@ -1372,10 +1391,6 @@ function createParticles(x, y, color) {
 // 心形粒子生成
 function createHeartParticles(x, y, color, count) {
   // 心形参数方程
-  // x = 16 * sin³(t)
-  // y = 13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t)
-  const scale = 0.5;
-  
   for (let i = 0; i < count; i++) {
     const t = (Math.PI * 2 * i) / count;
     
@@ -1410,6 +1425,95 @@ function createHeartParticles(x, y, color, count) {
         decay: random(0.012, 0.02),
       })
     );
+  }
+}
+
+// 二连炸效果：第一次爆炸后延迟触发第二次
+function createDoubleBurst(x, y, color, count) {
+  // 第一次爆炸
+  const shape1 = ["sphere", "ring", "scatter"][Math.floor(Math.random() * 3)];
+  createParticlesByShape(x, y, color, count * 0.6, shape1);
+  
+  // 延迟触发第二次爆炸
+  setTimeout(() => {
+    if (animationPaused) return;
+    const shape2 = ["sphere", "ring", "chrysanthemum", "double"][Math.floor(Math.random() * 4)];
+    const offsetX = random(-30, 30);
+    const offsetY = random(-20, 20);
+    createParticlesByShape(x + offsetX, y + offsetY, color, count * 0.7, shape2);
+  }, random(150, 250));
+}
+
+// 按指定形状创建粒子
+function createParticlesByShape(x, y, color, count, shape) {
+  count = Math.floor(count);
+  
+  switch (shape) {
+    case "ring":
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+        particles.push(new Particle(x, y, color, {
+          angle,
+          speed: 7,
+          gravity: 0.15,
+          friction: 0.97,
+          decay: random(0.012, 0.022),
+        }));
+      }
+      break;
+    case "double":
+      for (let i = 0; i < count; i++) {
+        const angle = random(0, Math.PI * 2);
+        const speed = i % 2 === 0 ? random(5, 9) : random(2.5, 5.5);
+        particles.push(new Particle(x, y, color, { angle, speed, gravity: 0.9, friction: 0.96 }));
+      }
+      break;
+    case "willow":
+      for (let i = 0; i < count; i++) {
+        const angle = random(-Math.PI, 0);
+        particles.push(new Particle(x, y, color, {
+          angle,
+          speed: random(3, 6),
+          gravity: 1.05,
+          friction: 0.94,
+          decay: random(0.008, 0.016),
+        }));
+      }
+      break;
+    case "chrysanthemum":
+      const arms = 12;
+      const particlesPerArm = Math.floor(count / arms);
+      for (let arm = 0; arm < arms; arm++) {
+        const baseAngle = (Math.PI * 2 * arm) / arms;
+        for (let i = 0; i < particlesPerArm; i++) {
+          const angle = baseAngle + random(-0.15, 0.15);
+          const speed = 3 + (i / particlesPerArm) * 5;
+          particles.push(new Particle(x, y, color, {
+            angle, speed, gravity: 0.7, friction: 0.95, decay: random(0.01, 0.018),
+          }));
+        }
+      }
+      break;
+    case "scatter":
+      const scatterArms = 16;
+      const scatterPerArm = Math.floor(count / scatterArms);
+      for (let arm = 0; arm < scatterArms; arm++) {
+        const baseAngle = (Math.PI * 2 * arm) / scatterArms;
+        for (let i = 0; i < scatterPerArm; i++) {
+          particles.push(new Particle(x, y, color, {
+            angle: baseAngle + random(-0.05, 0.05),
+            speed: random(5, 10),
+            gravity: 0.5,
+            friction: 0.94,
+            decay: random(0.01, 0.02),
+          }));
+        }
+      }
+      break;
+    default: // sphere
+      while (count--) {
+        particles.push(new Particle(x, y, color));
+      }
   }
 }
 
@@ -1658,24 +1762,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 设置面板事件
-  const settingsBtn = document.getElementById("settingsBtn");
-  if (settingsBtn) {
-    settingsBtn.addEventListener("click", showSettings);
-  }
-  const settingsModalClose = document.getElementById("settingsModalClose");
-  if (settingsModalClose) {
-    settingsModalClose.addEventListener("click", hideSettings);
-  }
-  const settingsModal = document.getElementById("settingsModal");
-  if (settingsModal) {
-    settingsModal.addEventListener("click", (e) => {
-      if (e.target === settingsModal) {
-        hideSettings();
-      }
-    });
-  }
-
+  // PC端设置面板事件
   const densitySlider = document.getElementById("densitySlider");
   const densityValue = document.getElementById("densityValue");
   if (densitySlider && densityValue) {
@@ -1783,117 +1870,143 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // 移动端事件初始化
   (function initMobileEvents() {
-    const editDrawer = document.getElementById("editDrawer");
-    const drawerOverlay = document.getElementById("drawerOverlay");
-    const mobileEditBtn = document.getElementById("mobileEditBtn");
-    const closeDrawerBtn = document.getElementById("closeDrawerBtn");
     const mobileShareBtn = document.getElementById("mobileShareBtn");
-    const mobileMoreBtn = document.getElementById("mobileMoreBtn");
-    const mobileMorePanel = document.getElementById("mobileMorePanel");
     const mobileExportBtn = document.getElementById("mobileExportBtn");
     const mobileQrBtn = document.getElementById("mobileQrBtn");
     const mobileSettingsBtn = document.getElementById("mobileSettingsBtn");
+    const mobileSettingsModal = document.getElementById("mobileSettingsModal");
+    const closeMobileSettings = document.getElementById("closeMobileSettings");
+    
+    // 移动端设置控件
+    const densitySliderMobile = document.getElementById("densitySliderMobile");
+    const densityValueMobile = document.getElementById("densityValueMobile");
+    const starSliderMobile = document.getElementById("starSliderMobile");
+    const starValueMobile = document.getElementById("starValueMobile");
+    const cometToggleMobile = document.getElementById("cometToggleMobile");
+    const fireworkToggleMobile = document.getElementById("fireworkToggleMobile");
+    const langSelectMobile = document.getElementById("langSelectMobile");
+    const pauseBtnMobile = document.getElementById("pauseBtnMobile");
 
-    // 移动端输入元素
-    const nameInputMobile = document.getElementById("nameInputMobile");
-    const festivalSelectMobile = document.getElementById("festivalSelectMobile");
-    const messageInputMobile = document.getElementById("messageInputMobile");
-    const fromInputMobile = document.getElementById("fromInputMobile");
-
-    function openDrawer() {
-      if (!editDrawer || !drawerOverlay) return;
-      editDrawer.classList.add("active");
-      drawerOverlay.classList.add("active");
-      document.body.style.overflow = "hidden";
-      
-      // 同步 PC 端输入到移动端
-      if (nameInputMobile && nameInput) nameInputMobile.value = nameInput.value;
-      if (festivalSelectMobile && festivalSelect) festivalSelectMobile.value = festivalSelect.value;
-      if (messageInputMobile && messageInput) messageInputMobile.value = messageInput.value;
-      if (fromInputMobile && fromInput) fromInputMobile.value = fromInput.value;
-    }
-
-    function closeDrawer() {
-      if (!editDrawer || !drawerOverlay) return;
-      editDrawer.classList.remove("active");
-      drawerOverlay.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-
-    function toggleMobileMore() {
-      if (!mobileMorePanel) return;
-      mobileMorePanel.classList.toggle("active");
-    }
-
-    if (mobileEditBtn) {
-      mobileEditBtn.addEventListener("click", openDrawer);
-    }
-    if (closeDrawerBtn) {
-      closeDrawerBtn.addEventListener("click", closeDrawer);
-    }
-    if (drawerOverlay) {
-      drawerOverlay.addEventListener("click", closeDrawer);
-    }
     if (mobileShareBtn) {
       mobileShareBtn.addEventListener("click", copyShareLink);
     }
-    if (mobileMoreBtn) {
-      mobileMoreBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleMobileMore();
-      });
-    }
     if (mobileExportBtn) {
-      mobileExportBtn.addEventListener("click", () => {
-        exportCardAsImage();
-        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
-      });
+      mobileExportBtn.addEventListener("click", exportCardAsImage);
     }
     if (mobileQrBtn) {
-      mobileQrBtn.addEventListener("click", () => {
-        showQRCode();
-        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
-      });
+      mobileQrBtn.addEventListener("click", showQRCode);
     }
     if (mobileSettingsBtn) {
       mobileSettingsBtn.addEventListener("click", () => {
-        showSettings();
-        if (mobileMorePanel) mobileMorePanel.classList.remove("active");
+        if (mobileSettingsModal) {
+          mobileSettingsModal.classList.add("active");
+          // 同步当前设置值
+          if (densitySliderMobile) densitySliderMobile.value = fireworkDensity;
+          if (densityValueMobile) densityValueMobile.textContent = fireworkDensity;
+          if (starSliderMobile) starSliderMobile.value = starBrightness;
+          if (starValueMobile) starValueMobile.textContent = starBrightness;
+          if (cometToggleMobile) cometToggleMobile.checked = cometEnabled;
+          if (fireworkToggleMobile) fireworkToggleMobile.checked = fireworkEnabled;
+          if (langSelectMobile) langSelectMobile.value = currentLang;
+          if (pauseBtnMobile) pauseBtnMobile.textContent = getText(animationPaused ? "btn.resume" : "btn.pause");
+        }
+      });
+    }
+    if (closeMobileSettings && mobileSettingsModal) {
+      closeMobileSettings.addEventListener("click", () => {
+        mobileSettingsModal.classList.remove("active");
+      });
+      mobileSettingsModal.addEventListener("click", (e) => {
+        if (e.target === mobileSettingsModal) {
+          mobileSettingsModal.classList.remove("active");
+        }
       });
     }
 
-    // 移动端输入同步到 PC 端
-    if (nameInputMobile) {
-      nameInputMobile.addEventListener("input", (e) => {
-        if (nameInput) nameInput.value = e.target.value;
-        debouncedSyncInputs();
+    // 移动端设置控件事件
+    if (densitySliderMobile && densityValueMobile) {
+      densitySliderMobile.addEventListener("input", (e) => {
+        densityValueMobile.textContent = e.target.value;
+        updateFireworkDensity(e.target.value);
+        // 同步 PC 端
+        if (densitySlider) densitySlider.value = e.target.value;
+        if (densityValue) densityValue.textContent = e.target.value;
+        syncSettingsToUrl(false);
       });
     }
-    if (festivalSelectMobile) {
-      festivalSelectMobile.addEventListener("change", (e) => {
-        if (festivalSelect) festivalSelect.value = e.target.value;
-        syncInputsToUrl(false);
+    if (starSliderMobile && starValueMobile) {
+      starSliderMobile.addEventListener("input", (e) => {
+        starValueMobile.textContent = e.target.value;
+        updateStarBrightness(e.target.value);
+        if (starSlider) starSlider.value = e.target.value;
+        if (starValue) starValue.textContent = e.target.value;
+        syncSettingsToUrl(false);
       });
     }
-    if (messageInputMobile) {
-      messageInputMobile.addEventListener("input", (e) => {
-        if (messageInput) messageInput.value = e.target.value;
-        debouncedSyncInputs();
+    if (cometToggleMobile) {
+      cometToggleMobile.addEventListener("change", (e) => {
+        cometEnabled = e.target.checked;
+        if (cometToggle) cometToggle.checked = e.target.checked;
+        syncSettingsToUrl(false);
       });
     }
-    if (fromInputMobile) {
-      fromInputMobile.addEventListener("input", (e) => {
-        if (fromInput) fromInput.value = e.target.value;
-        debouncedSyncInputs();
+    if (fireworkToggleMobile) {
+      fireworkToggleMobile.addEventListener("change", (e) => {
+        fireworkEnabled = e.target.checked;
+        if (fireworkToggle) fireworkToggle.checked = e.target.checked;
+        syncSettingsToUrl(false);
+      });
+    }
+    if (langSelectMobile) {
+      langSelectMobile.addEventListener("change", (e) => {
+        currentLang = e.target.value === "en" ? "en" : "zh";
+        const params = new URLSearchParams(window.location.search);
+        params.set("lang", currentLang);
+        window.history.replaceState({}, "", buildUrlFromParams(params));
+        applyI18n();
+        updateTextsFromParams();
+        // 同步 PC 端语言按钮
+        const langLabelPc = document.getElementById("langLabelPc");
+        if (langLabelPc) langLabelPc.textContent = currentLang === "en" ? "EN" : "中文";
+      });
+    }
+    if (pauseBtnMobile) {
+      pauseBtnMobile.addEventListener("click", () => {
+        toggleAnimation();
+        pauseBtnMobile.textContent = getText(animationPaused ? "btn.resume" : "btn.pause");
+        if (pauseBtn) pauseBtn.textContent = getText(animationPaused ? "btn.resume" : "btn.pause");
+        syncSettingsToUrl(false);
+      });
+    }
+  })();
+
+  // PC 端设置折叠和语言切换
+  (function initPcSettings() {
+    const settingsToggle = document.getElementById("settingsToggle");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const langSelectPc = document.getElementById("langSelectPc");
+    const langLabelPc = document.getElementById("langLabelPc");
+
+    if (settingsToggle && settingsPanel) {
+      settingsToggle.addEventListener("click", () => {
+        settingsToggle.classList.toggle("active");
+        settingsPanel.classList.toggle("active");
       });
     }
 
-    // 点击外部关闭更多菜单
-    document.addEventListener("click", (e) => {
-      if (mobileMorePanel && !mobileMorePanel.contains(e.target) && e.target !== mobileMoreBtn) {
-        mobileMorePanel.classList.remove("active");
-      }
-    });
+    if (langSelectPc) {
+      langSelectPc.addEventListener("click", () => {
+        currentLang = currentLang === "zh" ? "en" : "zh";
+        const params = new URLSearchParams(window.location.search);
+        params.set("lang", currentLang);
+        window.history.replaceState({}, "", buildUrlFromParams(params));
+        applyI18n();
+        updateTextsFromParams();
+        if (langLabelPc) langLabelPc.textContent = currentLang === "en" ? "EN" : "中文";
+      });
+      // 初始化语言标签
+      if (langLabelPc) langLabelPc.textContent = currentLang === "en" ? "EN" : "中文";
+    }
   })();
 
   initFireworks();
