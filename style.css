@@ -639,6 +639,23 @@ body.view-only .preview-area {
   padding-left: 40px;
 }
 
+/* 观看模式卡片渐显动画 */
+body.view-only .greeting-card {
+  animation: cardFadeIn 0.8s ease-out 2s forwards;
+  opacity: 0;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .floating-make-btn {
   display: none;
   position: fixed;
@@ -655,6 +672,20 @@ body.view-only .preview-area {
   background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
   box-shadow: 0 10px 28px rgba(248, 171, 94, 0.55);
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  /* 按钮也延迟显示 */
+  animation: btnFadeIn 0.5s ease-out 2.8s forwards;
+  opacity: 0;
+}
+
+@keyframes btnFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 body.view-only .floating-make-btn {
