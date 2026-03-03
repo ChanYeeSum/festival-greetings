@@ -591,6 +591,7 @@ function getQueryParams() {
   const dataParam = params.get("d");
   if (dataParam) {
     const decodedData = Base64URL.decodeJSON(dataParam);
+    console.log('[Base64 解码数据]', decodedData);
     if (decodedData && typeof decodedData === 'object') {
       // 支持紧凑格式（l, n, f, m, r...）和完整格式
       const compactData = decodedData.n !== undefined || decodedData.l !== undefined;
@@ -1279,23 +1280,32 @@ function syncSettingsToUrl(pushState = false) {
 }
 
 function applySettingsFromQuery() {
-  const params = new URLSearchParams(window.location.search);
+  // 使用 getQueryParams 以支持 Base64 解码参数
+  const params = getQueryParams();
 
-  const density = parseIntInRange(params.get("density"), fireworkDensity, 1, 10);
-  const star = parseIntInRange(params.get("star"), starBrightness, 0, 10);
-  const comet = parseBool(params.get("comet"), cometEnabled);
-  const firework = parseBool(params.get("firework"), fireworkEnabled);
-  const paused = parseBool(params.get("paused"), animationPaused);
-  const customEffect = parseBool(params.get("customEffect"), customEffectEnabled);
+  const density = parseIntInRange(params.density, fireworkDensity, 1, 10);
+  const star = parseIntInRange(params.star, starBrightness, 0, 10);
+  const comet = parseBool(params.comet, cometEnabled);
+  const firework = parseBool(params.firework, fireworkEnabled);
+  const paused = parseBool(params.paused, animationPaused);
+  const customEffect = parseBool(params.customEffect, customEffectEnabled);
 
   // 解析形状和效果数组
-  const shapesParam = params.get("shapes");
-  const burstsParam = params.get("bursts");
+  const shapesParam = params.shapes;
+  const burstsParam = params.bursts;
   if (shapesParam) {
     customShapes = shapesParam.split(",").filter(s => s);
   }
   if (burstsParam) {
     customBurstEffects = burstsParam.split(",").filter(s => s);
+  }
+  
+  // 如果复选框全部不选，则使用默认模式（全部随机）
+  if (customEffectEnabled && customShapes.length === 0) {
+    customShapes = ["sphere", "chrysanthemum", "ring", "double"];
+  }
+  if (customEffectEnabled && customBurstEffects.length === 0) {
+    customBurstEffects = ["normal"];
   }
 
   fireworkDensity = density;
@@ -1304,6 +1314,8 @@ function applySettingsFromQuery() {
   fireworkEnabled = firework;
   animationPaused = paused;
   customEffectEnabled = customEffect;
+  
+  console.log('[应用设置]', { density, star, comet, firework, paused, customEffect, customShapes, customBurstEffects });
 
   // 同步 UI
   const densitySlider = document.getElementById("densitySlider");
