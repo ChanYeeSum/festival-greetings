@@ -879,12 +879,32 @@ function showQRCode() {
   if (!modal || !qrCanvas) return;
   
   const url = buildAbsoluteUrlFromParams(getCurrentGreetingParams({ mode: "view" }));
-  const generatedQR = QRCode.generate(url, 200);
+  
+  // 使用 qrcode-generator 库生成二维码
+  const qr = qrcode(0, 'M');
+  qr.addData(url);
+  qr.make();
   
   const ctx = qrCanvas.getContext("2d");
-  qrCanvas.width = 200;
-  qrCanvas.height = 200;
-  ctx.drawImage(generatedQR, 0, 0, 200, 200);
+  const size = 200;
+  const cellSize = size / qr.getModuleCount();
+  
+  qrCanvas.width = size;
+  qrCanvas.height = size;
+  
+  // 绘制白色背景
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, size, size);
+  
+  // 绘制二维码模块
+  ctx.fillStyle = "#1e293b";
+  for (let row = 0; row < qr.getModuleCount(); row++) {
+    for (let col = 0; col < qr.getModuleCount(); col++) {
+      if (qr.isDark(row, col)) {
+        ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+      }
+    }
+  }
   
   modal.classList.add("active");
 }
