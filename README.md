@@ -2,6 +2,8 @@
 
 一个带烟花特效的节日祝福网页，可以通过 URL 参数为某个人生成专属祝福。
 
+**在线访问**: [https://chanyeesum.github.io/festival-greetings/](https://chanyeesum.github.io/festival-greetings/)
+
 ## 使用方式
 
 - **直接打开 `index.html`**
