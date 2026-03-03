@@ -59,15 +59,38 @@
           <button id="shareBtn" class="btn primary" data-i18n="btn.share">
             复制祝福链接
           </button>
-          <button id="exportBtn" class="btn secondary" data-i18n="btn.export">
-            导出图片
-          </button>
-          <button id="qrBtn" class="btn secondary" data-i18n="btn.qr">
-            二维码
-          </button>
-          <button id="settingsBtn" class="btn secondary" data-i18n="btn.settings">
-            设置
-          </button>
+
+          <div class="more-menu">
+            <button id="moreBtn" class="btn secondary" data-i18n="btn.more">
+              更多
+            </button>
+            <div id="morePanel" class="more-panel" aria-hidden="true">
+              <button
+                id="exportBtn"
+                class="more-item"
+                type="button"
+                data-i18n="btn.export"
+              >
+                导出图片
+              </button>
+              <button
+                id="qrBtn"
+                class="more-item"
+                type="button"
+                data-i18n="btn.qr"
+              >
+                二维码
+              </button>
+              <button
+                id="settingsBtn"
+                class="more-item"
+                type="button"
+                data-i18n="btn.settings"
+              >
+                设置
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -171,6 +194,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script src="./script.js"></script>
   </body>

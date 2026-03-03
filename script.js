@@ -268,9 +268,13 @@ const I18N = {
     "btn.export": "导出图片",
     "btn.qr": "二维码",
     "btn.settings": "设置",
+    "btn.more": "更多",
     "btn.pause": "暂停动画",
     "btn.resume": "继续动画",
     "btn.makeSame": "制作同款祝福",
+    "toast.copied": "链接已复制 ✓",
+    "toast.copyFailed": "复制失败，请手动复制地址栏链接。",
+    "toast.exported": "图片已导出 ✓",
     "footer.tipPrefix": "提示：在地址栏中使用",
     "footer.tipSuffix": "即可直接生成专属祝福。",
     "qr.title": "扫码分享祝福",
@@ -301,9 +305,13 @@ const I18N = {
     "btn.export": "Export image",
     "btn.qr": "QR code",
     "btn.settings": "Settings",
+    "btn.more": "More",
     "btn.pause": "Pause",
     "btn.resume": "Resume",
     "btn.makeSame": "Make one like this",
+    "toast.copied": "Link copied ✓",
+    "toast.copyFailed": "Copy failed. Please copy from the address bar.",
+    "toast.exported": "Image exported ✓",
     "footer.tipPrefix": "Tip: use",
     "footer.tipSuffix": "in the address bar to generate a greeting.",
     "qr.title": "Scan to share",
@@ -435,6 +443,52 @@ function buildUrlFromParams(params) {
   return (
     window.location.pathname + (query ? `?${query}` : "") + window.location.hash
   );
+}
+
+function buildAbsoluteUrlFromParams(params) {
+  return new URL(buildUrlFromParams(params), window.location.origin).toString();
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add("active");
+  window.clearTimeout(showToast._t);
+  showToast._t = window.setTimeout(() => {
+    toast.classList.remove("active");
+  }, 2200);
+}
+
+function getCurrentGreetingParams(overrides = {}) {
+  const name = document.getElementById("nameInput")?.value.trim() || "";
+  const festival = document.getElementById("festivalSelect")?.value.trim() || "";
+  const message = document.getElementById("messageInput")?.value.trim() || "";
+  const from = document.getElementById("fromInput")?.value.trim() || "";
+
+  const params = new URLSearchParams();
+  params.set("lang", currentLang || "zh");
+
+  if (name) params.set("name", name);
+  if (festival) params.set("festival", festival);
+  if (message) params.set("message", message);
+  if (from) params.set("from", from);
+
+  params.set("density", String(fireworkDensity));
+  params.set("star", String(starBrightness));
+  params.set("comet", cometEnabled ? "1" : "0");
+  params.set("firework", fireworkEnabled ? "1" : "0");
+  params.set("paused", animationPaused ? "1" : "0");
+
+  Object.entries(overrides).forEach(([k, v]) => {
+    if (v === undefined || v === null || v === "") {
+      params.delete(k);
+    } else {
+      params.set(k, String(v));
+    }
+  });
+
+  return params;
 }
 
 function applyThemeByFestival(festivalRaw) {
@@ -610,32 +664,12 @@ function syncInputsToUrl(pushState = false) {
 
 // -------- 复制分享链接 --------
 async function copyShareLink() {
-  const params = new URLSearchParams(window.location.search);
-  // 分享链接默认进入“观看模式”（隐藏面板）
-  params.set("mode", "view");
-  params.set("lang", currentLang || "zh");
-
-  // 写入当前动画设置（更多参数）
-  params.set("density", String(fireworkDensity));
-  params.set("star", String(starBrightness));
-  params.set("comet", cometEnabled ? "1" : "0");
-  params.set("firework", fireworkEnabled ? "1" : "0");
-  params.set("paused", animationPaused ? "1" : "0");
-
-  const url = buildUrlFromParams(params);
+  const url = buildAbsoluteUrlFromParams(getCurrentGreetingParams({ mode: "view" }));
   try {
     await navigator.clipboard.writeText(url);
-    const btn = document.getElementById("shareBtn");
-    if (!btn) return;
-    const originalText = btn.textContent;
-    btn.textContent = "已复制到剪贴板 ✓";
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.disabled = false;
-    }, 1800);
+    showToast(getText("toast.copied"));
   } catch (e) {
-    alert("复制失败，请手动复制地址栏链接。");
+    showToast(getText("toast.copyFailed"));
   }
 }
 
@@ -723,13 +757,7 @@ function exportCardAsImage() {
   // 按钮反馈
   const btn = document.getElementById("exportBtn");
   if (btn) {
-    const originalText = btn.textContent;
-    btn.textContent = "已导出 ✓";
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.disabled = false;
-    }, 1800);
+    showToast(getText("toast.exported"));
   }
 }
 
@@ -825,7 +853,7 @@ function showQRCode() {
   
   if (!modal || !qrCanvas) return;
   
-  const url = window.location.href;
+  const url = buildAbsoluteUrlFromParams(getCurrentGreetingParams({ mode: "view" }));
   const generatedQR = QRCode.generate(url, 200);
   
   const ctx = qrCanvas.getContext("2d");
@@ -1413,6 +1441,38 @@ window.addEventListener("DOMContentLoaded", () => {
   applySettingsFromQuery();
 
   updateTextsFromParams();
+
+  // 顶部“更多”菜单
+  (function initMoreMenu() {
+    const btn = document.getElementById("moreBtn");
+    const panel = document.getElementById("morePanel");
+    if (!btn || !panel) return;
+
+    function open() {
+      panel.classList.add("active");
+      panel.setAttribute("aria-hidden", "false");
+    }
+    function close() {
+      panel.classList.remove("active");
+      panel.setAttribute("aria-hidden", "true");
+    }
+    function toggle() {
+      if (panel.classList.contains("active")) close();
+      else open();
+    }
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+    panel.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+    document.addEventListener("click", close);
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+  })();
 
   const nameInput = document.getElementById("nameInput");
   const festivalSelect = document.getElementById("festivalSelect");

@@ -84,6 +84,54 @@ canvas#fireworks {
   justify-content: flex-end;
 }
 
+.more-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.more-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 160px;
+  padding: 8px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  display: none;
+  z-index: 80;
+}
+
+.more-panel.active {
+  display: grid;
+  gap: 6px;
+}
+
+.more-item {
+  width: 100%;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--text-main);
+  background: rgba(30, 41, 59, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  transition: background 0.15s ease-out, transform 0.15s ease-out,
+    border-color 0.15s ease-out;
+}
+
+.more-item:hover {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(248, 171, 94, 0.55);
+  transform: translateY(-1px);
+}
+
 .field {
   display: inline-flex;
   align-items: center;
@@ -507,6 +555,31 @@ body.view-only .floating-make-btn {
   gap: 10px;
   justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) translateY(12px);
+  z-index: 1400;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  color: rgba(229, 231, 235, 0.95);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.toast.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .qr-modal.active {
