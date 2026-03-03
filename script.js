@@ -923,7 +923,9 @@ function applySettingsFromQuery() {
   }
   const pauseBtn = document.getElementById("pauseBtn");
   if (pauseBtn) {
-    pauseBtn.textContent = animationPaused ? "继续动画" : "暂停动画";
+    pauseBtn.textContent = animationPaused
+      ? getText("btn.resume")
+      : getText("btn.pause");
   }
 }
 
@@ -1388,6 +1390,25 @@ function initFireworks() {
 
 // -------- 事件绑定与初始化 --------
 window.addEventListener("DOMContentLoaded", () => {
+  // 语言（URL 参数优先，其次浏览器语言）
+  {
+    const { lang } = getQueryParams();
+    currentLang = getPreferredLang(lang);
+    const langSelect = document.getElementById("langSelect");
+    if (langSelect) {
+      langSelect.value = currentLang;
+      langSelect.addEventListener("change", (e) => {
+        currentLang = e.target.value === "en" ? "en" : "zh";
+        const params = new URLSearchParams(window.location.search);
+        params.set("lang", currentLang);
+        window.history.replaceState({}, "", buildUrlFromParams(params));
+        applyI18n();
+        updateTextsFromParams();
+      });
+    }
+    applyI18n();
+  }
+
   // 读取 URL 中的动画设置（更多参数）
   applySettingsFromQuery();
 
