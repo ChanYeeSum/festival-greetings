@@ -12,6 +12,8 @@
 
 - **🎆 绚丽烟花动画** - 基于 Canvas 的实时烟花效果，支持自定义密度、颜色
 - **🎨 多节日主题** - 新年、春节、中秋、情人节、圣诞节等 8 种主题风格
+- **✨ 自定义烟花效果** - 可勾选多种烟花形状（球形、菊花、心形等）和爆炸效果（闪烁、发光、拖尾）
+- **🎲 随机祝福语** - 每个节日 5 句精选祝福语，一键随机切换
 - **🔗 链接分享** - 生成专属祝福链接，一键复制分享给好友
 - **📱 二维码分享** - 生成二维码方便扫码查看
 - **🖼️ 图片导出** - 导出祝福卡片为 PNG 图片
@@ -74,6 +76,13 @@ npm run start
 | `comet` | 彗星 1/0 | `comet=1` |
 | `firework` | 烟花 1/0 | `firework=1` |
 | `paused` | 暂停动画 1/0 | `paused=0` |
+| `customEffect` | 启用自定义烟花效果 1/0 | `customEffect=1` |
+| `shapes` | 烟花形状（逗号分隔） | `shapes=heart,star,ring` |
+| `bursts` | 爆炸效果（逗号分隔） | `bursts=glow,sparkle` |
+
+**烟花形状**: `sphere`(球形) `chrysanthemum`(菊花) `ring`(环形) `double`(双层) `scatter`(散射) `willow`(柳条) `star`(星星) `heart`(心形) `doubleBurst`(双重爆炸)
+
+**爆炸效果**: `normal`(普通) `sparkle`(闪烁) `trail`(拖尾) `glow`(发光)
 
 **示例链接**：
 ```
@@ -88,6 +97,7 @@ index.html?lang=en&name=Mike&festival=圣诞快乐&from=Alice
 - 星空亮度（0-10）
 - 彗星显示开关
 - 烟花显示开关
+- 自定义烟花效果（可勾选多种形状和效果随机组合）
 - 暂停/继续动画
 
 ---

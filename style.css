@@ -1064,6 +1064,71 @@ body.view-only .floating-make-btn {
   font-weight: 600;
 }
 
+/* 自定义烟花效果面板 */
+.custom-effect-panel {
+  padding: 8px 0;
+  border-top: 1px dashed rgba(148, 163, 184, 0.2);
+  margin-top: 8px;
+}
+
+.effect-group {
+  margin-bottom: 10px;
+}
+
+.effect-group-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.checkbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.checkbox-grid .checkbox-inline {
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  transition: all 0.2s;
+}
+
+.checkbox-grid .checkbox-inline:hover {
+  border-color: var(--accent);
+}
+
+.checkbox-grid .checkbox-inline input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+}
+
+/* 随机祝福语按钮 */
+.random-message-btn {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.random-message-btn svg {
+  opacity: 0.8;
+}
+
+.random-message-btn:hover svg {
+  opacity: 1;
+}
+
+.form-select-sm {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+  min-width: 100px;
+}
+
 @media (max-width: 768px) {
   .pv-stats {
     bottom: 68px;
@@ -1072,5 +1137,10 @@ body.view-only .floating-make-btn {
 
   body.view-only .pv-stats {
     bottom: 12px;
+  }
+
+  .checkbox-grid .checkbox-inline {
+    font-size: 13px;
+    padding: 6px 10px;
   }
 }

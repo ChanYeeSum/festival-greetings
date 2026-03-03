@@ -12,12 +12,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "新年快乐",
-        subtitleTemplate: "{name}，新的一年愿你心想事成，万事胜意。",
+        subtitleTemplates: [
+          "{name}，新的一年愿你心想事成，万事胜意。",
+          "{name}，愿新年带给你无尽的快乐与希望。",
+          "{name}，新年新气象，愿你前程似锦。",
+          "{name}，愿你在新的一年里收获满满的幸福。",
+          "{name}，祝福你新年快乐，好运连连！"
+        ],
         footerTag: "新岁启封 · 万象更新",
       },
       en: {
         title: "Happy New Year",
-        subtitleTemplate: "{name}, wishing you a bright year ahead—joy and success!",
+        subtitleTemplates: [
+          "{name}, wishing you a bright year ahead—joy and success!",
+          "{name}, may the new year bring you endless happiness.",
+          "{name}, new year, new beginnings—may you thrive!",
+          "{name}, wishing you a year filled with love and laughter.",
+          "{name}, happy new year—may all your dreams come true!"
+        ],
         footerTag: "New year · New beginnings",
       },
     },
@@ -42,13 +54,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "春节快乐",
-        subtitleTemplate: "{name}，愿阖家团圆，平安喜乐，龙行大运。",
+        subtitleTemplates: [
+          "{name}，愿阖家团圆，平安喜乐，龙行大运。",
+          "{name}，新春大吉，万事如意！",
+          "{name}，愿你在新的一年里龙腾虎跃，事业有成。",
+          "{name}，祝你春节快乐，阖家幸福！",
+          "{name}，愿新春的钟声带给你无尽的祝福。"
+        ],
         footerTag: "爆竹声中一岁除",
       },
       en: {
         title: "Happy Spring Festival",
-        subtitleTemplate:
+        subtitleTemplates: [
           "{name}, wishing you reunion, peace, and prosperity this Spring Festival.",
+          "{name}, may the Spring Festival bring you joy and good fortune!",
+          "{name}, wishing you a prosperous and happy Chinese New Year!",
+          "{name}, may your year be filled with abundance and happiness.",
+          "{name}, happy Spring Festival—may luck be with you always!"
+        ],
         footerTag: "Spring Festival · Blessings",
       },
     },
@@ -73,13 +96,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "中秋快乐",
-        subtitleTemplate: "{name}，愿人月两圆，所念之人皆在身边。",
+        subtitleTemplates: [
+          "{name}，愿人月两圆，所念之人皆在身边。",
+          "{name}，中秋佳节，愿月光带给你温柔与美好。",
+          "{name}，月圆人团圆，祝你中秋快乐！",
+          "{name}，愿这轮明月带去我对你的思念与祝福。",
+          "{name}，但愿人长久，千里共婵娟。"
+        ],
         footerTag: "花好月圆 · 人长久",
       },
       en: {
         title: "Happy Mid-Autumn Festival",
-        subtitleTemplate:
+        subtitleTemplates: [
           "{name}, may the moon be full and your loved ones be near.",
+          "{name}, wishing you a warm and joyful Mid-Autumn Festival.",
+          "{name}, may the full moon bring you happiness and peace.",
+          "{name}, under the same moon, sending you my warmest wishes.",
+          "{name}, happy Mid-Autumn—may your life be as round and full as the moon!"
+        ],
         footerTag: "Full moon · Togetherness",
       },
     },
@@ -105,13 +139,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "元宵快乐",
-        subtitleTemplate: "{name}，愿你团圆相聚，诸事皆圆满。",
+        subtitleTemplates: [
+          "{name}，愿你团圆相聚，诸事皆圆满。",
+          "{name}，元宵佳节，愿灯火万家，幸福绵长。",
+          "{name}，吃碗汤圆，团团圆圆，甜甜蜜蜜。",
+          "{name}，愿你的生活像汤圆一样，甜甜蜜蜜，圆圆满满。",
+          "{name}，花灯璀璨，愿你的未来更加光明。"
+        ],
         footerTag: "良宵灯火 · 万家团圆",
       },
       en: {
         title: "Happy Lantern Festival",
-        subtitleTemplate:
+        subtitleTemplates: [
           "{name}, wishing you a warm reunion and a bright year ahead.",
+          "{name}, may the lanterns light up your path to happiness.",
+          "{name}, enjoy the sweet tangyuan and a joyful reunion!",
+          "{name}, may your life be as sweet and round as the tangyuan.",
+          "{name}, happy Lantern Festival—may your year shine bright!"
+        ],
         footerTag: "Lanterns · Reunion",
       },
     },
@@ -137,13 +182,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "国庆快乐",
-        subtitleTemplate: "{name}，愿祖国繁荣昌盛，国泰民安。",
+        subtitleTemplates: [
+          "{name}，愿祖国繁荣昌盛，国泰民安。",
+          "{name}，举国同庆，愿你的生活红红火火！",
+          "{name}，金秋十月，祝你假期愉快，幸福安康。",
+          "{name}，愿祖国的明天更加美好，愿你的未来更加光明。",
+          "{name}，国庆佳节，祝你阖家欢乐，万事如意！"
+        ],
         footerTag: "盛世华诞 · 举国同庆",
       },
       en: {
         title: "Happy National Day",
-        subtitleTemplate:
+        subtitleTemplates: [
           "{name}, wishing peace and prosperity, and a joyful holiday.",
+          "{name}, happy National Day—may your life be filled with joy!",
+          "{name}, enjoy the holiday and may happiness be with you always.",
+          "{name}, celebrating our nation—wishing you peace and happiness.",
+          "{name}, may this National Day bring you rest, joy, and good times!"
+        ],
         footerTag: "National Day · Celebration",
       },
     },
@@ -168,13 +224,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "情人节快乐",
-        subtitleTemplate: "{name}，愿有情人终成眷属，爱意永存。",
+        subtitleTemplates: [
+          "{name}，愿有情人终成眷属，爱意永存。",
+          "{name}，你是我心中最美的风景，情人节快乐！",
+          "{name}，愿我们的爱情如烟花般绚烂，永不褪色。",
+          "{name}，在这个特别的日子里，只想告诉你：我爱你。",
+          "{name}，愿得一人心，白首不分离。情人节快乐！"
+        ],
         footerTag: "花开并蒂 · 情定三生",
       },
       en: {
         title: "Happy Valentine's Day",
-        subtitleTemplate:
+        subtitleTemplates: [
           "{name}, may love find you, keep you, and warm you—always.",
+          "{name}, you are the most beautiful scenery in my heart.",
+          "{name}, may our love be as brilliant as fireworks, never fading.",
+          "{name}, on this special day, I just want to say: I love you.",
+          "{name}, happy Valentine's Day—may love light up your world!"
+        ],
         footerTag: "Love · Forever",
       },
     },
@@ -199,12 +266,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "圣诞快乐",
-        subtitleTemplate: "{name}，愿平安喜乐，幸福相伴。",
+        subtitleTemplates: [
+          "{name}，愿平安喜乐，幸福相伴。",
+          "{name}，圣诞快乐！愿圣诞老人带给你满满的惊喜。",
+          "{name}，愿这个圣诞节充满温暖与爱。",
+          "{name}，雪花飘飘，铃儿响叮当，祝你圣诞快乐！",
+          "{name}，愿平安夜的钟声带给你一年的平安与幸福。"
+        ],
         footerTag: "铃儿响叮当 · 平安夜未央",
       },
       en: {
         title: "Merry Christmas",
-        subtitleTemplate: "{name}, wishing you peace, joy, and warmth this season.",
+        subtitleTemplates: [
+          "{name}, wishing you peace, joy, and warmth this season.",
+          "{name}, merry Christmas! May Santa bring you wonderful surprises.",
+          "{name}, may this Christmas be filled with warmth and love.",
+          "{name}, jingle bells, jingle bells—wishing you a merry Christmas!",
+          "{name}, may the bells of Christmas Eve bring you peace all year round."
+        ],
         footerTag: "Peace · Joy · Love",
       },
     },
@@ -229,12 +308,24 @@ const FESTIVALS_CONFIG = {
     copy: {
       zh: {
         title: "节日快乐",
-        subtitleTemplate: "{name}，愿你被世界温柔以待。",
+        subtitleTemplates: [
+          "{name}，愿你被世界温柔以待。",
+          "{name}，愿今天的你，闪闪发光！",
+          "{name}，祝你度过一个美好的节日！",
+          "{name}，愿每一天都充满阳光与希望。",
+          "{name}，在这个特别的日子里，送上我最真挚的祝福。"
+        ],
         footerTag: "美好如期而至",
       },
       en: {
         title: "Happy Holidays",
-        subtitleTemplate: "{name}, may you be treated gently by the world.",
+        subtitleTemplates: [
+          "{name}, may you be treated gently by the world.",
+          "{name}, may you shine bright today and always!",
+          "{name}, wishing you a wonderful holiday!",
+          "{name}, may every day be filled with sunshine and hope.",
+          "{name}, on this special day, sending you my warmest wishes."
+        ],
         footerTag: "Warm wishes",
       },
     },
@@ -286,6 +377,23 @@ const I18N = {
     "settings.star": "星空亮度",
     "settings.comet": "显示彗星",
     "settings.firework": "显示烟花",
+    "settings.customEffect": "自定义烟花效果",
+    "settings.shape": "烟花形状",
+    "settings.burstEffect": "爆炸效果",
+    "shape.random": "随机",
+    "shape.sphere": "球形",
+    "shape.chrysanthemum": "菊花",
+    "shape.ring": "环形",
+    "shape.double": "双层",
+    "shape.scatter": "散射",
+    "shape.willow": "柳条",
+    "shape.star": "星星",
+    "shape.heart": "心形",
+    "shape.doubleBurst": "双重爆炸",
+    "burst.normal": "普通",
+    "burst.sparkle": "闪烁",
+    "burst.trail": "拖尾",
+    "burst.glow": "发光",
     "prompt.title": "想制作同款祝福吗？",
     "prompt.subtitle":
       "你可以在编辑面板里改名字、节日、祝福语和特效设置，然后生成专属链接分享。",
@@ -293,6 +401,10 @@ const I18N = {
     "prompt.no": "继续观看",
     "stats.pv": "访问量",
     "stats.uv": "访客数",
+    "btn.randomMessage": "随机祝福语",
+    "settings.customEffect": "自定义烟花效果",
+    "settings.shape": "烟花形状",
+    "settings.burstEffect": "爆炸效果",
   },
   en: {
     "page.title": "Festive Fireworks Greeting",
@@ -326,6 +438,23 @@ const I18N = {
     "settings.star": "Star brightness",
     "settings.comet": "Show comets",
     "settings.firework": "Show fireworks",
+    "settings.customEffect": "Custom firework effect",
+    "settings.shape": "Firework shape",
+    "settings.burstEffect": "Burst effect",
+    "shape.random": "Random",
+    "shape.sphere": "Sphere",
+    "shape.chrysanthemum": "Chrysanthemum",
+    "shape.ring": "Ring",
+    "shape.double": "Double",
+    "shape.scatter": "Scatter",
+    "shape.willow": "Willow",
+    "shape.star": "Star",
+    "shape.heart": "Heart",
+    "shape.doubleBurst": "Double Burst",
+    "burst.normal": "Normal",
+    "burst.sparkle": "Sparkle",
+    "burst.trail": "Trail",
+    "burst.glow": "Glow",
     "prompt.title": "Want to make one like this?",
     "prompt.subtitle":
       "You can edit the name, festival, message, and effects, then share your own link.",
@@ -333,6 +462,10 @@ const I18N = {
     "prompt.no": "Keep watching",
     "stats.pv": "Views",
     "stats.uv": "Visitors",
+    "btn.randomMessage": "Random message",
+    "settings.customEffect": "Custom fireworks",
+    "settings.shape": "Shape",
+    "settings.burstEffect": "Burst effect",
   },
 };
 
@@ -411,6 +544,9 @@ function getQueryParams() {
     comet: params.get("comet") || "",
     firework: params.get("firework") || "",
     paused: params.get("paused") || "",
+    customEffect: params.get("customEffect") || "",
+    shapes: params.get("shapes") || "",
+    bursts: params.get("bursts") || "",
   };
 }
 
@@ -510,7 +646,7 @@ function applyThemeByFestival(festivalRaw) {
   root.style.setProperty("--bg-color", config.colors.bgGradient);
 }
 
-function formatGreeting(name, festival, customMessage) {
+function formatGreeting(name, festival, customMessage, messageIndex = null) {
   const safeName = name.trim() || "亲爱的朋友";
   const safeFestival = festival.trim() || DEFAULT_FESTIVAL_KEY;
 
@@ -519,7 +655,20 @@ function formatGreeting(name, festival, customMessage) {
   const copyPack = config.copy?.[currentLang] || config.copy?.zh || {};
   const title = copyPack.title || safeFestival;
 
-  let template = (customMessage || "").trim() || copyPack.subtitleTemplate || "";
+  let template;
+  if ((customMessage || "").trim()) {
+    template = customMessage.trim();
+  } else if (copyPack.subtitleTemplates && copyPack.subtitleTemplates.length > 0) {
+    // 从数组中选择祝福语
+    if (messageIndex !== null && messageIndex >= 0 && messageIndex < copyPack.subtitleTemplates.length) {
+      template = copyPack.subtitleTemplates[messageIndex];
+    } else {
+      template = copyPack.subtitleTemplates[Math.floor(Math.random() * copyPack.subtitleTemplates.length)];
+    }
+  } else {
+    template = "";
+  }
+
   if (!template.includes("{name}")) {
     template =
       currentLang === "en" ? `{name}, ${template}` : `{name}，${template}`;
@@ -926,6 +1075,9 @@ let fireworkEnabled = true;
 let cometEnabled = true;
 let fireworkDensity = 5;
 let starBrightness = 5;
+let customEffectEnabled = false;
+let customShapes = ["sphere", "chrysanthemum", "ring", "double"];
+let customBurstEffects = ["normal"];
 
 function toggleAnimation() {
   animationPaused = !animationPaused;
@@ -947,12 +1099,17 @@ function updateStarBrightness(value) {
 }
 
 function syncSettingsToUrl(pushState = false) {
+
   const params = new URLSearchParams(window.location.search);
+
   params.set("density", String(fireworkDensity));
   params.set("star", String(starBrightness));
   params.set("comet", cometEnabled ? "1" : "0");
   params.set("firework", fireworkEnabled ? "1" : "0");
   params.set("paused", animationPaused ? "1" : "0");
+  params.set("customEffect", customEffectEnabled ? "1" : "0");
+  params.set("shapes", customShapes.join(","));
+  params.set("bursts", customBurstEffects.join(","));
 
   const newUrl = buildUrlFromParams(params);
   if (pushState) {
@@ -970,12 +1127,24 @@ function applySettingsFromQuery() {
   const comet = parseBool(params.get("comet"), cometEnabled);
   const firework = parseBool(params.get("firework"), fireworkEnabled);
   const paused = parseBool(params.get("paused"), animationPaused);
+  const customEffect = parseBool(params.get("customEffect"), customEffectEnabled);
+
+  // 解析形状和效果数组
+  const shapesParam = params.get("shapes");
+  const burstsParam = params.get("bursts");
+  if (shapesParam) {
+    customShapes = shapesParam.split(",").filter(s => s);
+  }
+  if (burstsParam) {
+    customBurstEffects = burstsParam.split(",").filter(s => s);
+  }
 
   fireworkDensity = density;
   starBrightness = star;
   cometEnabled = comet;
   fireworkEnabled = firework;
   animationPaused = paused;
+  customEffectEnabled = customEffect;
 
   // 同步 UI
   const densitySlider = document.getElementById("densitySlider");
@@ -1004,6 +1173,26 @@ function applySettingsFromQuery() {
       ? getText("btn.resume")
       : getText("btn.pause");
   }
+
+  // 同步自定义烟花效果 UI
+  const customEffectToggleEl = document.getElementById("customEffectToggle");
+  if (customEffectToggleEl) {
+    customEffectToggleEl.checked = customEffectEnabled;
+  }
+  const customEffectPanel = document.getElementById("customEffectPanel");
+  if (customEffectPanel) {
+    customEffectPanel.style.display = customEffectEnabled ? "block" : "none";
+  }
+
+  // 同步形状复选框
+  document.querySelectorAll(".shape-checkbox").forEach(cb => {
+    cb.checked = customShapes.includes(cb.value);
+  });
+
+  // 同步爆炸效果复选框
+  document.querySelectorAll(".burst-checkbox").forEach(cb => {
+    cb.checked = customBurstEffects.includes(cb.value);
+  });
 }
 
 let canvas = null;
@@ -1208,6 +1397,13 @@ class Particle {
     this.brightness = random(50, 80);
     this.alpha = 1;
     this.decay = options.decay || random(0.012, 0.03);
+    this.sparklePhase = Math.random() * Math.PI * 2;
+    // 从数组中随机选择爆炸效果
+    if (customEffectEnabled && customBurstEffects.length > 0) {
+      this.burstEffect = customBurstEffects[Math.floor(Math.random() * customBurstEffects.length)];
+    } else {
+      this.burstEffect = "normal";
+    }
   }
 
   update(index) {
@@ -1220,6 +1416,12 @@ class Particle {
     this.y += Math.sin(this.angle) * this.speed + this.gravity;
 
     this.alpha -= this.decay;
+
+    // 闪烁效果
+    if (this.burstEffect === "sparkle") {
+      this.sparklePhase += 0.3;
+    }
+
     if (this.alpha <= this.decay) {
       particles.splice(index, 1);
     }
@@ -1230,8 +1432,32 @@ class Particle {
     const lastCoordinate = this.coordinates[this.coordinates.length - 1];
     ctx.moveTo(lastCoordinate[0], lastCoordinate[1]);
     ctx.lineTo(this.x, this.y);
-    ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${this.alpha})`;
+
+    let alpha = this.alpha;
+
+    // 闪烁效果
+    if (this.burstEffect === "sparkle") {
+      alpha = this.alpha * (0.5 + 0.5 * Math.sin(this.sparklePhase));
+    }
+
+    // 发光效果
+    if (this.burstEffect === "glow") {
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = `hsla(${this.hue}, 100%, 70%, ${alpha})`;
+    } else {
+      ctx.shadowBlur = 0;
+    }
+
+    // 拖尾效果 - 更长的轨迹
+    if (this.burstEffect === "trail") {
+      ctx.lineWidth = 3;
+    } else {
+      ctx.lineWidth = 1;
+    }
+
+    ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${alpha})`;
     ctx.stroke();
+    ctx.shadowBlur = 0;
   }
 }
 
@@ -1252,14 +1478,19 @@ function createParticles(x, y, color) {
   let count = Math.floor(base * (effects.particleMultiplier || 1));
   let shape;
 
-  // 支持 burstShapes 数组（随机选择）或单一 burstShape 或 "random"
-  if (effects.burstShapes && Array.isArray(effects.burstShapes)) {
-    shape = effects.burstShapes[Math.floor(Math.random() * effects.burstShapes.length)];
-  } else if (effects.burstShape === "random") {
-    const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst"];
-    shape = shapes[Math.floor(Math.random() * shapes.length)];
+  // 自定义烟花效果优先
+  if (customEffectEnabled && customShapes.length > 0) {
+    shape = customShapes[Math.floor(Math.random() * customShapes.length)];
   } else {
-    shape = effects.burstShape || "sphere";
+    // 支持 burstShapes 数组（随机选择）或单一 burstShape 或 "random"
+    if (effects.burstShapes && Array.isArray(effects.burstShapes)) {
+      shape = effects.burstShapes[Math.floor(Math.random() * effects.burstShapes.length)];
+    } else if (effects.burstShape === "random") {
+      const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst"];
+      shape = shapes[Math.floor(Math.random() * shapes.length)];
+    } else {
+      shape = effects.burstShape || "sphere";
+    }
   }
 
   // 心形绽放
@@ -1765,6 +1996,28 @@ window.addEventListener("DOMContentLoaded", () => {
   if (shareBtn) {
     shareBtn.addEventListener("click", copyShareLink);
   }
+
+  // 随机祝福语按钮
+  const randomMessageBtn = document.getElementById("randomMessageBtn");
+  if (randomMessageBtn) {
+    randomMessageBtn.addEventListener("click", () => {
+      const festival = festivalSelect ? festivalSelect.value : DEFAULT_FESTIVAL_KEY;
+      const config = FESTIVALS_CONFIG[festival] || FESTIVALS_CONFIG[DEFAULT_FESTIVAL_KEY];
+      const copyPack = config.copy?.[currentLang] || config.copy?.zh || {};
+
+      if (copyPack.subtitleTemplates && copyPack.subtitleTemplates.length > 0) {
+        const randomIndex = Math.floor(Math.random() * copyPack.subtitleTemplates.length);
+        let template = copyPack.subtitleTemplates[randomIndex];
+        // 移除 {name} 占位符，只保留祝福语部分
+        template = template.replace("{name}，", "").replace("{name}, ", "").replace("{name}，", "").replace("{name}, ", "");
+        if (messageInput) {
+          messageInput.value = template;
+          messageInput.dispatchEvent(new Event("input"));
+        }
+      }
+    });
+  }
+
   const exportBtn = document.getElementById("exportBtn");
   if (exportBtn) {
     exportBtn.addEventListener("click", exportCardAsImage);
@@ -1933,6 +2186,15 @@ window.addEventListener("DOMContentLoaded", () => {
           if (fireworkToggleMobile) fireworkToggleMobile.checked = fireworkEnabled;
           if (langSelectMobile) langSelectMobile.value = currentLang;
           if (pauseBtnMobile) pauseBtnMobile.textContent = getText(animationPaused ? "btn.resume" : "btn.pause");
+          // 同步自定义烟花效果
+          const customEffectToggleMobile = document.getElementById("customEffectToggleMobile");
+          const customEffectPanelMobile = document.getElementById("customEffectPanelMobile");
+          const shapeSelectMobile = document.getElementById("shapeSelectMobile");
+          const burstSelectMobile = document.getElementById("burstSelectMobile");
+          if (customEffectToggleMobile) customEffectToggleMobile.checked = customEffectEnabled;
+          if (customEffectPanelMobile) customEffectPanelMobile.style.display = customEffectEnabled ? "block" : "none";
+          if (shapeSelectMobile) shapeSelectMobile.value = customShape;
+          if (burstSelectMobile) burstSelectMobile.value = customBurstEffect;
         }
       });
     }
@@ -2002,6 +2264,58 @@ window.addEventListener("DOMContentLoaded", () => {
         syncSettingsToUrl(false);
       });
     }
+
+    // 移动端自定义烟花效果事件
+    const customEffectToggleMobile = document.getElementById("customEffectToggleMobile");
+    const customEffectPanelMobile = document.getElementById("customEffectPanelMobile");
+    const customEffectToggle = document.getElementById("customEffectToggle");
+    const customEffectPanel = document.getElementById("customEffectPanel");
+
+    if (customEffectToggleMobile) {
+      customEffectToggleMobile.addEventListener("change", (e) => {
+        customEffectEnabled = e.target.checked;
+        if (customEffectPanelMobile) customEffectPanelMobile.style.display = customEffectEnabled ? "block" : "none";
+        if (customEffectToggle) customEffectToggle.checked = e.target.checked;
+        if (customEffectPanel) customEffectPanel.style.display = customEffectEnabled ? "block" : "none";
+        syncSettingsToUrl(false);
+      });
+    }
+
+    // 移动端形状复选框事件
+    document.querySelectorAll(".shape-checkbox-mobile").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          if (!customShapes.includes(e.target.value)) {
+            customShapes.push(e.target.value);
+          }
+        } else {
+          customShapes = customShapes.filter(s => s !== e.target.value);
+        }
+        // 同步PC端
+        document.querySelectorAll(`.shape-checkbox[value="${e.target.value}"]`).forEach(pcb => {
+          pcb.checked = e.target.checked;
+        });
+        syncSettingsToUrl(false);
+      });
+    });
+
+    // 移动端爆炸效果复选框事件
+    document.querySelectorAll(".burst-checkbox-mobile").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          if (!customBurstEffects.includes(e.target.value)) {
+            customBurstEffects.push(e.target.value);
+          }
+        } else {
+          customBurstEffects = customBurstEffects.filter(s => s !== e.target.value);
+        }
+        // 同步PC端
+        document.querySelectorAll(`.burst-checkbox[value="${e.target.value}"]`).forEach(pcb => {
+          pcb.checked = e.target.checked;
+        });
+        syncSettingsToUrl(false);
+      });
+    });
   })();
 
   // PC 端设置折叠和语言切换
@@ -2031,6 +2345,58 @@ window.addEventListener("DOMContentLoaded", () => {
       // 初始化语言标签
       if (langLabelPc) langLabelPc.textContent = currentLang === "en" ? "EN" : "中文";
     }
+
+    // PC 端自定义烟花效果事件
+    const customEffectToggle = document.getElementById("customEffectToggle");
+    const customEffectPanel = document.getElementById("customEffectPanel");
+    const customEffectToggleMobile = document.getElementById("customEffectToggleMobile");
+    const customEffectPanelMobile = document.getElementById("customEffectPanelMobile");
+
+    if (customEffectToggle) {
+      customEffectToggle.addEventListener("change", (e) => {
+        customEffectEnabled = e.target.checked;
+        if (customEffectPanel) customEffectPanel.style.display = customEffectEnabled ? "block" : "none";
+        if (customEffectToggleMobile) customEffectToggleMobile.checked = e.target.checked;
+        if (customEffectPanelMobile) customEffectPanelMobile.style.display = customEffectEnabled ? "block" : "none";
+        syncSettingsToUrl(false);
+      });
+    }
+
+    // PC端形状复选框事件
+    document.querySelectorAll(".shape-checkbox").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          if (!customShapes.includes(e.target.value)) {
+            customShapes.push(e.target.value);
+          }
+        } else {
+          customShapes = customShapes.filter(s => s !== e.target.value);
+        }
+        // 同步移动端
+        document.querySelectorAll(`.shape-checkbox-mobile[value="${e.target.value}"]`).forEach(mcb => {
+          mcb.checked = e.target.checked;
+        });
+        syncSettingsToUrl(false);
+      });
+    });
+
+    // PC端爆炸效果复选框事件
+    document.querySelectorAll(".burst-checkbox").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          if (!customBurstEffects.includes(e.target.value)) {
+            customBurstEffects.push(e.target.value);
+          }
+        } else {
+          customBurstEffects = customBurstEffects.filter(s => s !== e.target.value);
+        }
+        // 同步移动端
+        document.querySelectorAll(`.burst-checkbox-mobile[value="${e.target.value}"]`).forEach(mcb => {
+          mcb.checked = e.target.checked;
+        });
+        syncSettingsToUrl(false);
+      });
+    });
   })();
 
   initFireworks();

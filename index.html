@@ -61,6 +61,13 @@
                 data-i18n-placeholder="placeholder.message"
                 rows="2"
               ></textarea>
+              <button id="randomMessageBtn" class="btn-xs random-message-btn" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span data-i18n="btn.randomMessage">随机祝福语</span>
+              </button>
             </div>
 
             <div class="form-group">
@@ -119,6 +126,37 @@
                   <span data-i18n="settings.firework">烟花</span>
                 </label>
                 <button id="pauseBtn" class="btn-xs" data-i18n="btn.pause">暂停</button>
+              </div>
+              <div class="settings-row">
+                <label class="checkbox-inline">
+                  <input type="checkbox" id="customEffectToggle">
+                  <span data-i18n="settings.customEffect">自定义烟花效果</span>
+                </label>
+              </div>
+              <div id="customEffectPanel" class="custom-effect-panel" style="display: none;">
+                <div class="settings-row">
+                  <div class="effect-group-label" data-i18n="settings.shape">烟花形状</div>
+                  <div class="checkbox-grid">
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="sphere" checked><span data-i18n="shape.sphere">球形</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="chrysanthemum" checked><span data-i18n="shape.chrysanthemum">菊花</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="ring" checked><span data-i18n="shape.ring">环形</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="double" checked><span data-i18n="shape.double">双层</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="scatter"><span data-i18n="shape.scatter">散射</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="willow"><span data-i18n="shape.willow">柳条</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="star"><span data-i18n="shape.star">星星</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="heart"><span data-i18n="shape.heart">心形</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox" value="doubleBurst"><span data-i18n="shape.doubleBurst">双重爆炸</span></label>
+                  </div>
+                </div>
+                <div class="settings-row">
+                  <div class="effect-group-label" data-i18n="settings.burstEffect">爆炸效果</div>
+                  <div class="checkbox-grid">
+                    <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox" value="normal" checked><span data-i18n="burst.normal">普通</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox" value="sparkle"><span data-i18n="burst.sparkle">闪烁</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox" value="trail"><span data-i18n="burst.trail">拖尾</span></label>
+                    <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox" value="glow"><span data-i18n="burst.glow">发光</span></label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -222,6 +260,37 @@
                 <input type="checkbox" id="fireworkToggleMobile" checked>
                 <span data-i18n="settings.firework">烟花</span>
               </label>
+            </div>
+            <div class="settings-row">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="customEffectToggleMobile">
+                <span data-i18n="settings.customEffect">自定义烟花效果</span>
+              </label>
+            </div>
+            <div id="customEffectPanelMobile" class="custom-effect-panel" style="display: none;">
+              <div class="settings-row">
+                <div class="effect-group-label" data-i18n="settings.shape">烟花形状</div>
+                <div class="checkbox-grid">
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="sphere" checked><span data-i18n="shape.sphere">球形</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="chrysanthemum" checked><span data-i18n="shape.chrysanthemum">菊花</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="ring" checked><span data-i18n="shape.ring">环形</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="double" checked><span data-i18n="shape.double">双层</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="scatter"><span data-i18n="shape.scatter">散射</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="willow"><span data-i18n="shape.willow">柳条</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="star"><span data-i18n="shape.star">星星</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="heart"><span data-i18n="shape.heart">心形</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="shape-checkbox-mobile" value="doubleBurst"><span data-i18n="shape.doubleBurst">双重爆炸</span></label>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="effect-group-label" data-i18n="settings.burstEffect">爆炸效果</div>
+                <div class="checkbox-grid">
+                  <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox-mobile" value="normal" checked><span data-i18n="burst.normal">普通</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox-mobile" value="sparkle"><span data-i18n="burst.sparkle">闪烁</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox-mobile" value="trail"><span data-i18n="burst.trail">拖尾</span></label>
+                  <label class="checkbox-inline"><input type="checkbox" class="burst-checkbox-mobile" value="glow"><span data-i18n="burst.glow">发光</span></label>
+                </div>
+              </div>
             </div>
             <div class="settings-row">
               <label class="settings-label-inline">
