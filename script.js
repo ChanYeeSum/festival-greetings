@@ -844,7 +844,8 @@ function formatGreeting(name, festival, customMessage, messageIndex = null) {
 }
 
 function updateTextsFromParams() {
-  const { name, festival, message, from } = getQueryParams();
+  const { name, festival, message, from, mode } = getQueryParams();
+  const isEditMode = (mode || "").toLowerCase().trim() === "edit";
 
   applyThemeByFestival(festival);
 
@@ -900,8 +901,32 @@ function updateTextsFromParams() {
   }
 
   const messageInput = document.getElementById("messageInput");
-  if (messageInput && message) {
-    messageInput.value = message;
+  if (messageInput) {
+    if (message) {
+      // 有自定义祝福语，直接填入
+      messageInput.value = message;
+    } else if (isEditMode) {
+      // 编辑模式下没有自定义祝福语，生成随机祝福填入输入框
+      const config = FESTIVALS_CONFIG[festival] || FESTIVALS_CONFIG[DEFAULT_FESTIVAL_KEY];
+      const copyPack = config.copy?.[currentLang] || config.copy?.zh || {};
+      if (copyPack.subtitleTemplates && copyPack.subtitleTemplates.length > 0) {
+        const templates = copyPack.subtitleTemplates;
+        let randomIndex;
+        if (templates.length === 1) {
+          randomIndex = 0;
+        } else {
+          do {
+            randomIndex = Math.floor(Math.random() * templates.length);
+          } while (randomIndex === lastRandomMessageIndex);
+        }
+        lastRandomMessageIndex = randomIndex;
+        
+        let template = templates[randomIndex];
+        // 移除 {name} 占位符，只保留祝福语部分
+        template = template.replace("{name}，", "").replace("{name}, ", "").replace("{name}，", "").replace("{name}, ", "");
+        messageInput.value = template;
+      }
+    }
   }
 
   const fromInput = document.getElementById("fromInput");
@@ -2263,10 +2288,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // 观看模式：带参数打开默认隐藏面板，30s 后提示制作同款
   (function initViewOnlyMode() {
-    const params = new URLSearchParams(window.location.search);
-    const mode = (params.get("mode") || "").toLowerCase().trim();
+    // 使用 getQueryParams 支持 Base64 编码参数
+    const queryParams = getQueryParams();
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = (queryParams.mode || "").toLowerCase().trim();
     const isEdit = mode === "edit";
-    const shouldViewOnly = !isEdit && hasAnyViewingParams(params);
+    const shouldViewOnly = !isEdit && hasAnyViewingParams(urlParams);
+    
+    console.log('[预览模式检测]', { mode, isEdit, shouldViewOnly, hasDParam: !!urlParams.get("d") });
 
     const makeSameBtn = document.getElementById("makeSameBtn");
     const promptModal = document.getElementById("viewPromptModal");
@@ -2274,9 +2303,38 @@ window.addEventListener("DOMContentLoaded", () => {
     const promptNoBtn = document.getElementById("promptNoBtn");
 
     function goToEdit() {
-      const p = new URLSearchParams(window.location.search);
-      p.set("mode", "edit");
-      window.location.href = buildUrlFromParams(p);
+      const currentParams = new URLSearchParams(window.location.search);
+      const dataParam = currentParams.get("d");
+      
+      if (dataParam) {
+        // Base64 模式：解码并展开为普通 URL 参数
+        const decodedData = Base64URL.decodeJSON(dataParam);
+        const expandedParams = expandCompactData(decodedData);
+        const p = new URLSearchParams();
+        
+        // 设置所有展开的参数（不保留 message，让编辑模式生成新的随机祝福）
+        if (expandedParams.lang) p.set("lang", expandedParams.lang);
+        if (expandedParams.name) p.set("name", expandedParams.name);
+        if (expandedParams.festival) p.set("festival", expandedParams.festival);
+        // 不设置 message，让编辑模式生成新的随机祝福
+        if (expandedParams.from) p.set("from", expandedParams.from);
+        if (expandedParams.density) p.set("density", expandedParams.density);
+        if (expandedParams.star) p.set("star", expandedParams.star);
+        if (expandedParams.comet) p.set("comet", expandedParams.comet);
+        if (expandedParams.firework) p.set("firework", expandedParams.firework);
+        if (expandedParams.customEffect) p.set("customEffect", expandedParams.customEffect);
+        if (expandedParams.shapes) p.set("shapes", expandedParams.shapes);
+        if (expandedParams.bursts) p.set("bursts", expandedParams.bursts);
+        
+        p.set("mode", "edit");
+        window.location.href = buildUrlFromParams(p);
+      } else {
+        // 普通 URL 模式：移除 message 参数
+        const p = currentParams;
+        p.delete("message"); // 清空祝福语，让编辑模式生成新的随机祝福
+        p.set("mode", "edit");
+        window.location.href = buildUrlFromParams(p);
+      }
     }
 
     function openPrompt() {
