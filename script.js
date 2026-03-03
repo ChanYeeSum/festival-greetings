@@ -1398,11 +1398,12 @@ class Particle {
     this.alpha = 1;
     this.decay = options.decay || random(0.012, 0.03);
     this.sparklePhase = Math.random() * Math.PI * 2;
-    // 从数组中随机选择爆炸效果
+    // 从数组中随机选择爆炸效果，默认全部随机
+    const allBurstEffects = ["normal", "sparkle", "trail", "glow"];
     if (customEffectEnabled && customBurstEffects.length > 0) {
       this.burstEffect = customBurstEffects[Math.floor(Math.random() * customBurstEffects.length)];
     } else {
-      this.burstEffect = "normal";
+      this.burstEffect = allBurstEffects[Math.floor(Math.random() * allBurstEffects.length)];
     }
   }
 
@@ -1478,19 +1479,13 @@ function createParticles(x, y, color) {
   let count = Math.floor(base * (effects.particleMultiplier || 1));
   let shape;
 
-  // 自定义烟花效果优先
+  // 自定义烟花效果优先，否则默认全部随机
+  const allShapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst", "heart"];
   if (customEffectEnabled && customShapes.length > 0) {
     shape = customShapes[Math.floor(Math.random() * customShapes.length)];
   } else {
-    // 支持 burstShapes 数组（随机选择）或单一 burstShape 或 "random"
-    if (effects.burstShapes && Array.isArray(effects.burstShapes)) {
-      shape = effects.burstShapes[Math.floor(Math.random() * effects.burstShapes.length)];
-    } else if (effects.burstShape === "random") {
-      const shapes = ["sphere", "ring", "double", "willow", "chrysanthemum", "star", "scatter", "doubleBurst"];
-      shape = shapes[Math.floor(Math.random() * shapes.length)];
-    } else {
-      shape = effects.burstShape || "sphere";
-    }
+    // 默认全部随机
+    shape = allShapes[Math.floor(Math.random() * allShapes.length)];
   }
 
   // 心形绽放
