@@ -900,6 +900,10 @@ body.view-only .floating-make-btn {
     max-width: none;
     padding: 20px 18px 16px;
     border-radius: 18px;
+    /* 移动端更透明，让烟花可见 */
+    background: radial-gradient(circle at top, rgba(30, 64, 175, 0.35), transparent 55%),
+      radial-gradient(circle at bottom, rgba(248, 171, 94, 0.3), transparent 60%),
+      rgba(15, 23, 42, 0.55);
   }
 
   .title-text {
