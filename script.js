@@ -343,6 +343,7 @@ const FESTIVALS_CONFIG = {
 const DEFAULT_FESTIVAL_KEY = "节日快乐";
 let currentFestivalKey = DEFAULT_FESTIVAL_KEY;
 let currentLang = "zh";
+let lastRandomMessageIndex = -1; // 记录上次随机祝福语索引
 
 const I18N = {
   zh: {
@@ -807,8 +808,21 @@ function formatGreeting(name, festival, customMessage, messageIndex = null) {
     // 从数组中选择祝福语
     if (messageIndex !== null && messageIndex >= 0 && messageIndex < copyPack.subtitleTemplates.length) {
       template = copyPack.subtitleTemplates[messageIndex];
+      lastRandomMessageIndex = messageIndex;
     } else {
-      template = copyPack.subtitleTemplates[Math.floor(Math.random() * copyPack.subtitleTemplates.length)];
+      // 随机选择，但避免与上次相同
+      const templates = copyPack.subtitleTemplates;
+      if (templates.length === 1) {
+        template = templates[0];
+        lastRandomMessageIndex = 0;
+      } else {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * templates.length);
+        } while (newIndex === lastRandomMessageIndex);
+        template = templates[newIndex];
+        lastRandomMessageIndex = newIndex;
+      }
     }
   } else {
     template = "";
@@ -2146,8 +2160,19 @@ window.addEventListener("DOMContentLoaded", () => {
       const copyPack = config.copy?.[currentLang] || config.copy?.zh || {};
 
       if (copyPack.subtitleTemplates && copyPack.subtitleTemplates.length > 0) {
-        const randomIndex = Math.floor(Math.random() * copyPack.subtitleTemplates.length);
-        let template = copyPack.subtitleTemplates[randomIndex];
+        const templates = copyPack.subtitleTemplates;
+        let randomIndex;
+        // 随机选择，但避免与上次相同
+        if (templates.length === 1) {
+          randomIndex = 0;
+        } else {
+          do {
+            randomIndex = Math.floor(Math.random() * templates.length);
+          } while (randomIndex === lastRandomMessageIndex);
+        }
+        lastRandomMessageIndex = randomIndex;
+        
+        let template = templates[randomIndex];
         // 移除 {name} 占位符，只保留祝福语部分
         template = template.replace("{name}，", "").replace("{name}, ", "").replace("{name}，", "").replace("{name}, ", "");
         if (messageInput) {
