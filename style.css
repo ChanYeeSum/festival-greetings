@@ -920,7 +920,7 @@ body.view-only .floating-make-btn {
     flex: 1;
     padding: 16px;
     padding-bottom: calc(55vh + 76px);
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     padding-top: 24px;
   }
@@ -960,8 +960,9 @@ body.view-only .floating-make-btn {
   }
 
   body.view-only .preview-area {
-    padding-bottom: 24px;
-    padding-top: 60px;
+    padding: 24px 16px;
+    padding-bottom: 80px;
+    align-items: center;
   }
 
   body.view-only .floating-make-btn {
