@@ -534,7 +534,7 @@ canvas#fireworks {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px 12px env(safe-area-inset-bottom, 8px);
+  padding: 6px 8px env(safe-area-inset-bottom, 6px);
   background: rgba(15, 23, 42, 0.95);
   border-top: 1px solid rgba(148, 163, 184, 0.25);
   backdrop-filter: blur(20px);
@@ -546,25 +546,32 @@ canvas#fireworks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 8px 6px;
+  gap: 4px;
+  padding: 12px 8px;
+  min-height: 52px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-tool-btn:active {
-  transform: scale(0.95);
-  background: rgba(30, 41, 59, 0.5);
+  transform: scale(0.96);
+  background: rgba(30, 41, 59, 0.6);
 }
 
 .mobile-tool-btn.primary {
   color: var(--accent);
-  background: rgba(248, 171, 94, 0.12);
+  background: rgba(248, 171, 94, 0.15);
+}
+
+.mobile-tool-btn.primary:active {
+  background: rgba(248, 171, 94, 0.25);
 }
 
 /* 移动端设置弹窗 */
@@ -585,7 +592,7 @@ canvas#fireworks {
 
 .mobile-settings-content {
   width: 100%;
-  max-height: 70vh;
+  max-height: 75vh;
   background: rgba(15, 23, 42, 0.98);
   border-radius: 20px 20px 0 0;
   border: 1px solid rgba(148, 163, 184, 0.25);
@@ -597,37 +604,61 @@ canvas#fireworks {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 18px 20px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .mobile-settings-header h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
 }
 
 .mobile-settings-close {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
   background: rgba(30, 41, 59, 0.6);
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-settings-close:active {
+  background: rgba(30, 41, 59, 0.8);
 }
 
 .mobile-settings-body {
-  padding: 16px 20px;
+  padding: 16px 20px 24px;
   overflow-y: auto;
 }
 
 .mobile-settings-body .settings-row {
-  padding: 10px 0;
+  padding: 14px 0;
+  min-height: 52px;
+}
+
+.mobile-settings-body .settings-label {
+  font-size: 15px;
+}
+
+.mobile-settings-body input[type="range"] {
+  height: 24px;
+}
+
+.mobile-settings-body input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+}
+
+.mobile-settings-body .btn {
+  width: 100%;
+  margin-top: 8px;
 }
 
 /* ========== 观看模式 ========== */
@@ -862,49 +893,68 @@ body.view-only .floating-make-btn {
   }
 
   .panel-header {
-    padding: 14px 16px;
+    padding: 12px 16px;
   }
 
   .logo {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .lang-select-pc {
-    padding: 5px 10px;
-    font-size: 11px;
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .panel-body {
-    padding: 14px 16px;
-    gap: 14px;
-    max-height: calc(55vh - 130px);
+    padding: 12px 16px 16px;
+    gap: 16px;
+    max-height: calc(55vh - 110px);
   }
 
   .form-group {
-    gap: 4px;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-size: 13px;
+    margin-bottom: 2px;
   }
 
   .form-input,
   .form-select,
   .form-textarea {
-    padding: 9px 12px;
+    padding: 12px 14px;
     font-size: 16px; /* 防止 iOS 缩放 */
+    min-height: 48px;
+    border-radius: 10px;
+  }
+
+  .form-textarea {
+    min-height: 72px;
   }
 
   .quick-actions {
-    padding-top: 2px;
+    padding-top: 4px;
   }
 
   .btn {
-    padding: 11px 16px;
+    padding: 14px 18px;
+    min-height: 52px;
+    font-size: 15px;
   }
 
   .settings-section {
-    padding-top: 12px;
+    padding-top: 8px;
+    gap: 10px;
+  }
+
+  .settings-row {
+    padding: 10px 0;
+    min-height: 44px;
   }
 
   .settings-row-cols {
-    gap: 8px;
+    gap: 10px;
   }
 
   .panel-footer {
@@ -913,7 +963,7 @@ body.view-only .floating-make-btn {
 
   .mobile-toolbar {
     display: flex;
-    gap: 6px;
+    gap: 8px;
   }
 
   .preview-area {
