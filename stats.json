@@ -1,5 +1,11 @@
 {
-  "total_views": 0,
-  "total_uniques": 0,
+  "github": {
+    "total_views": 0,
+    "total_uniques": 0
+  },
+  "busuanzi": {
+    "pv": 0,
+    "uv": 0
+  },
   "updated_at": "2026-03-03"
 }
