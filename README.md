@@ -18,7 +18,7 @@
 - **🌐 多语言支持** - 支持中文/英文切换
 - **⚙️ 动画设置** - 自定义烟花密度、星空亮度、彗星/烟花开关
 - **📱 响应式设计** - 完美适配桌面端和移动端
-- **📊 访问统计** - 基于 GitHub Actions 的 PV/UV 统计
+- **📊 访问统计** - 基于不蒜子的 PV/UV 统计
 
 ---
 
@@ -101,12 +101,10 @@ festival-greetings/
 ├── stats.html          # 访问统计页
 ├── style.css           # 样式文件
 ├── script.js           # 主要逻辑
-├── stats.json          # 统计数据
 ├── package.json        # 项目配置
 └── .github/
     └── workflows/
-        ├── deploy.yml        # GitHub Pages 部署
-        └── update-stats.yml  # 统计数据更新
+        └── deploy.yml        # GitHub Pages 部署
 ```
 
 ---
@@ -119,8 +117,8 @@ festival-greetings/
 | CSS3 | 样式、动画、响应式布局 |
 | JavaScript | 交互逻辑 |
 | Canvas | 烟花、星空、彗星动画 |
+| 不蒜子 | 访问统计 |
 | GitHub Pages | 静态托管 |
-| GitHub Actions | CI/CD、访问统计 |
 
 ---
 
@@ -141,13 +139,11 @@ festival-greetings/
 
 ## 访问统计
 
-项目使用 GitHub Actions 获取 GitHub Pages Traffic API 数据：
+项目使用 [不蒜子](https://busuanzi.ibruce.info/) 极简网页计数器：
 
-- 每 6 小时自动更新一次
-- 统计总访问量和独立访客数
-- 数据存储在 `stats.json`
-
-查看统计：[stats.html](https://chanyeesum.github.io/festival-greetings/stats.html)
+- 自动统计站点访问量（PV）和访客数（UV）
+- 无需配置，开箱即用
+- 数据实时更新
 
 ---
 

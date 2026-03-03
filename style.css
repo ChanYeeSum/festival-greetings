@@ -1058,8 +1058,8 @@ body.view-only .floating-make-btn {
   opacity: 0.4;
 }
 
-#pvCount,
-#uvCount {
+#busuanzi_value_site_pv,
+#busuanzi_value_site_uv {
   color: var(--accent);
   font-weight: 600;
 }
