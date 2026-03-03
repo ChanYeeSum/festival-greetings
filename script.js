@@ -650,6 +650,10 @@ function parseIntInRange(value, fallback, min, max) {
 }
 
 function hasAnyViewingParams(params) {
+  // 检查是否有 d 参数（Base64 编码数据）
+  if (params.get("d")) {
+    return true;
+  }
   const keys = [
     "name",
     "festival",
