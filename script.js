@@ -397,7 +397,7 @@ const I18N = {
     "prompt.title": "想制作同款祝福吗？",
     "prompt.subtitle":
       "你可以在编辑面板里改名字、节日、祝福语和特效设置，然后生成专属链接分享。",
-    "prompt.yes": "是的，去制作",
+    "prompt.yes": "去制作",
     "prompt.no": "继续观看",
     "stats.pv": "访问量",
     "stats.uv": "访客数",
