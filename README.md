@@ -1,44 +1,185 @@
-# 节日烟花祝福页
+# ✦ 节日烟花祝福 ✦
 
-一个带烟花特效的节日祝福网页，可以通过 URL 参数为某个人生成专属祝福。
+一个精美的在线节日祝福生成器，支持绚丽烟花动画、多节日主题、链接分享等功能。
 
 **在线访问**: [https://chanyeesum.github.io/festival-greetings/](https://chanyeesum.github.io/festival-greetings/)
 
-## 使用方式
+![Preview](https://img.shields.io/badge/Status-Live-brightgreen) ![License](https://img.shields.io/badge/License-MIT-blue)
 
-- **直接打开 `index.html`**
-  - 在浏览器中打开 `index.html` 即可看到烟花和默认祝福。
+---
 
-- **通过地址栏指定祝福对象**
-  - 在 URL 后面添加参数：
-    - `lang`：语言 `zh` / `en`（可选）
-    - `name`：被祝福的人名（或称呼）
-    - `festival`：节日名称
-    - `message`：自定义祝福语（可选）
-    - `from`：署名（可选）
-    - `density`：烟花密度 1-10（可选）
-    - `star`：星空亮度 0-10（可选）
-    - `comet`：是否显示彗星 1/0（可选）
-    - `firework`：是否显示烟花 1/0（可选）
-    - `paused`：是否暂停动画 1/0（可选）
-  - 示例：
-    - `index.html?lang=zh&name=小明&festival=新年快乐&message=祝你每天开心&from=你的朋友`
-    - `index.html?lang=en&name=Mike&festival=圣诞快乐&message=Have%20a%20wonderful%20holiday!&from=Alice`
-    - `index.html?name=爸爸妈妈&festival=中秋快乐`
+## 功能特色
 
-网页会在中心展示类似：
+- **🎆 绚丽烟花动画** - 基于 Canvas 的实时烟花效果，支持自定义密度、颜色
+- **🎨 多节日主题** - 新年、春节、中秋、情人节、圣诞节等 8 种主题风格
+- **🔗 链接分享** - 生成专属祝福链接，一键复制分享给好友
+- **📱 二维码分享** - 生成二维码方便扫码查看
+- **🖼️ 图片导出** - 导出祝福卡片为 PNG 图片
+- **🌐 多语言支持** - 支持中文/英文切换
+- **⚙️ 动画设置** - 自定义烟花密度、星空亮度、彗星/烟花开关
+- **📱 响应式设计** - 完美适配桌面端和移动端
+- **📊 访问统计** - 基于 GitHub Actions 的 PV/UV 统计
 
-> 新年快乐  
-> 小明，愿你岁岁常欢愉，年年皆胜意。
+---
 
-## 运行一个本地服务（可选）
+## 快速开始
 
-项目自带一个简单的 `package.json`，方便你使用 `npm` 启动本地静态服务（体验会比直接双击打开更接近线上效果）。
+### 在线使用
+
+直接访问 [在线地址](https://chanyeesum.github.io/festival-greetings/) 即可使用。
+
+### 本地运行
 
 ```bash
+# 克隆仓库
+git clone https://github.com/ChanYeeSum/festival-greetings.git
+cd festival-greetings
+
+# 安装依赖（可选，用于本地服务器）
 npm install
+
+# 启动本地服务
 npm run start
 ```
 
-然后按终端提示在浏览器访问对应地址即可。
+或直接在浏览器中打开 `index.html` 文件。
+
+---
+
+## 使用说明
+
+### 创建祝福
+
+1. 在左侧编辑面板填写信息：
+   - **祝福给谁**：输入 TA 的名字
+   - **选择节日**：选择节日主题
+   - **祝福语**：输入自定义祝福（可选）
+   - **署名**：你的名字（可选）
+
+2. 点击「复制祝福链接」分享给好友
+
+### URL 参数
+
+通过 URL 参数可以直接生成专属祝福：
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `lang` | 语言 `zh`/`en` | `lang=en` |
+| `name` | 被祝福者名字 | `name=小明` |
+| `festival` | 节日名称 | `festival=新年快乐` |
+| `message` | 自定义祝福语 | `message=祝你开心` |
+| `from` | 署名 | `from=你的朋友` |
+| `density` | 烟花密度 1-10 | `density=8` |
+| `star` | 星空亮度 0-10 | `star=5` |
+| `comet` | 彗星 1/0 | `comet=1` |
+| `firework` | 烟花 1/0 | `firework=1` |
+| `paused` | 暂停动画 1/0 | `paused=0` |
+
+**示例链接**：
+```
+index.html?name=小明&festival=新年快乐&message=祝你每天开心&from=你的朋友
+index.html?lang=en&name=Mike&festival=圣诞快乐&from=Alice
+```
+
+### 动画设置
+
+点击「动画设置」可自定义：
+- 烟花密度（1-10）
+- 星空亮度（0-10）
+- 彗星显示开关
+- 烟花显示开关
+- 暂停/继续动画
+
+---
+
+## 项目结构
+
+```
+festival-greetings/
+├── index.html          # 主页面
+├── about.html          # 项目介绍页
+├── stats.html          # 访问统计页
+├── style.css           # 样式文件
+├── script.js           # 主要逻辑
+├── stats.json          # 统计数据
+├── package.json        # 项目配置
+└── .github/
+    └── workflows/
+        ├── deploy.yml        # GitHub Pages 部署
+        └── update-stats.yml  # 统计数据更新
+```
+
+---
+
+## 技术栈
+
+| 技术 | 用途 |
+|------|------|
+| HTML5 | 页面结构 |
+| CSS3 | 样式、动画、响应式布局 |
+| JavaScript | 交互逻辑 |
+| Canvas | 烟花、星空、彗星动画 |
+| GitHub Pages | 静态托管 |
+| GitHub Actions | CI/CD、访问统计 |
+
+---
+
+## 支持的节日
+
+| 节日 | 中文 | 英文 |
+|------|------|------|
+| 新年 | 新年快乐 | Happy New Year |
+| 春节 | 春节快乐 | Happy Spring Festival |
+| 中秋 | 中秋快乐 | Happy Mid-Autumn Festival |
+| 元宵 | 元宵快乐 | Happy Lantern Festival |
+| 国庆 | 国庆快乐 | Happy National Day |
+| 情人节 | 情人节快乐 | Happy Valentine's Day |
+| 圣诞 | 圣诞快乐 | Merry Christmas |
+| 通用 | 节日快乐 | Happy Holidays |
+
+---
+
+## 访问统计
+
+项目使用 GitHub Actions 获取 GitHub Pages Traffic API 数据：
+
+- 每 6 小时自动更新一次
+- 统计总访问量和独立访客数
+- 数据存储在 `stats.json`
+
+查看统计：[stats.html](https://chanyeesum.github.io/festival-greetings/stats.html)
+
+---
+
+## 开发
+
+### 本地开发
+
+```bash
+# 启动本地服务器
+npm run start
+
+# 访问 http://localhost:3000
+```
+
+### 部署
+
+项目自动通过 GitHub Actions 部署到 GitHub Pages：
+
+1. 推送到 `main` 分支
+2. GitHub Actions 自动构建部署
+3. 访问 `https://<username>.github.io/<repo>/`
+
+---
+
+## 致谢
+
+- 烟花动画灵感来自各种 Canvas 特效项目
+- 图标使用内联 SVG
+
+---
+
+## License
+
+[MIT](LICENSE)
 
