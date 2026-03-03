@@ -291,6 +291,8 @@ const I18N = {
       "你可以在编辑面板里改名字、节日、祝福语和特效设置，然后生成专属链接分享。",
     "prompt.yes": "是的，去制作",
     "prompt.no": "继续观看",
+    "stats.pv": "访问量",
+    "stats.uv": "访客数",
   },
   en: {
     "page.title": "Festive Fireworks Greeting",
@@ -329,6 +331,8 @@ const I18N = {
       "You can edit the name, festival, message, and effects, then share your own link.",
     "prompt.yes": "Yes, let's make it",
     "prompt.no": "Keep watching",
+    "stats.pv": "Views",
+    "stats.uv": "Visitors",
   },
 };
 
