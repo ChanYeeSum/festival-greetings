@@ -15,12 +15,12 @@
 - **✨ 自定义烟花效果** - 可勾选多种烟花形状（球形、菊花、心形等）和爆炸效果（闪烁、发光、拖尾）
 - **🎲 随机祝福语** - 每个节日 5 句精选祝福语，一键随机切换
 - **🔗 链接分享** - 生成专属祝福链接，支持 JSON + Base64 编码，链接更短更美观
-- **📱 二维码分享** - 生成二维码方便扫码查看
+- **📱 二维码海报** - 生成带祝福内容的二维码海报，支持下载 PNG
 - **🖼️ 图片导出** - 导出祝福卡片为 PNG 图片
 - **🌐 多语言支持** - 支持中文/英文切换
 - **⚙️ 动画设置** - 自定义烟花密度、星空亮度、彗星/烟花开关
 - **📱 响应式设计** - 完美适配桌面端和移动端
-- **📊 访问统计** - 基于不蒜子的 PV/UV 统计
+- **📊 双重访问统计** - GitHub Pages Traffic API + 不蒜子，每日自动更新
 
 ---
 
@@ -156,10 +156,17 @@ festival-greetings/
 ├── stats.html          # 访问统计页
 ├── style.css           # 样式文件
 ├── script.js           # 主要逻辑
+├── stats.json          # 统计数据
 ├── package.json        # 项目配置
+├── assert/             # 静态资源
+│   ├── icon.png        # 项目图标
+│   └── icon.ico        # 网站图标
+├── scripts/            # 脚本
+│   └── fetch-busuanzi.js  # 不蒜子数据获取
 └── .github/
     └── workflows/
-        └── deploy.yml        # GitHub Pages 部署
+        ├── deploy.yml        # GitHub Pages 部署
+        └── update-stats.yml  # 统计数据更新
 ```
 
 ---
@@ -194,11 +201,19 @@ festival-greetings/
 
 ## 访问统计
 
-项目使用 [不蒜子](https://busuanzi.ibruce.info/) 极简网页计数器：
+项目使用双重统计机制：
 
-- 自动统计站点访问量（PV）和访客数（UV）
+### GitHub Pages Traffic API
+- 通过 GitHub Actions 每天北京时间 0:00 自动获取
+- 统计总访问量和独立访客数
+- 数据持久化存储在 `stats.json`
+
+### 不蒜子
+- [不蒜子](https://busuanzi.ibruce.info/) 极简网页计数器
+- 实时统计站点 PV/UV
 - 无需配置，开箱即用
-- 数据实时更新
+
+访问 [统计页面](https://chanyeesum.github.io/festival-greetings/stats.html) 查看详细数据。
 
 ---
 
