@@ -24,22 +24,6 @@ jobs:
       - name: Install Puppeteer
         run: npm install puppeteer
 
-      - name: Fetch GitHub Pages Traffic
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        id: github-stats
-        run: |
-          # 使用 curl 获取仓库流量统计
-          RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/traffic/views")
-          
-          VIEWS=$(echo "$RESPONSE" | jq -r '.count // 0')
-          UNIQUES=$(echo "$RESPONSE" | jq -r '.uniques // 0')
-          
-          echo "views=$VIEWS" >> $GITHUB_OUTPUT
-          echo "uniques=$UNIQUES" >> $GITHUB_OUTPUT
-          echo "GitHub Pages - Views: $VIEWS, Uniques: $UNIQUES"
-
       - name: Fetch Busuanzi Stats
         id: busuanzi-stats
         env:
@@ -57,35 +41,14 @@ jobs:
           # 获取今日日期
           TODAY=$(date -u +"%Y-%m-%d")
           
-          # GitHub Pages 数据
-          GH_VIEWS=${{ steps.github-stats.outputs.views }}
-          GH_UNIQUES=${{ steps.github-stats.outputs.uniques }}
-          
           # 不蒜子数据
           BUSUANZI_DATA='${{ steps.busuanzi-stats.outputs.busuanzi_data }}'
           BUSUANZI_PV=$(echo "$BUSUANZI_DATA" | jq -r '.pv // 0')
           BUSUANZI_UV=$(echo "$BUSUANZI_DATA" | jq -r '.uv // 0')
           
-          # 读取现有数据
-          if [ -f stats.json ]; then
-            TOTAL_VIEWS=$(jq -r '.github.total_views // 0' stats.json)
-            TOTAL_UNIQUES=$(jq -r '.github.total_uniques // 0' stats.json)
-            
-            # 累加统计（GitHub API 只返回最近14天数据）
-            NEW_VIEWS=$((TOTAL_VIEWS + GH_VIEWS))
-            NEW_UNIQUES=$((TOTAL_UNIQUES + GH_UNIQUES))
-          else
-            NEW_VIEWS=$GH_VIEWS
-            NEW_UNIQUES=$GH_UNIQUES
-          fi
-          
-          # 生成 stats.json（包含 GitHub 和 Busuanzi 两套数据）
+          # 生成 stats.json
           cat > stats.json << EOF
           {
-            "github": {
-              "total_views": $NEW_VIEWS,
-              "total_uniques": $NEW_UNIQUES
-            },
             "busuanzi": {
               "pv": $BUSUANZI_PV,
               "uv": $BUSUANZI_UV
