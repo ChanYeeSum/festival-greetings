@@ -18,7 +18,7 @@
     }
 
     .stats-container {
-      max-width: 900px;
+      max-width: 600px;
       width: 100%;
     }
 
@@ -39,16 +39,6 @@
     .stats-subtitle {
       font-size: 16px;
       color: var(--text-muted);
-    }
-
-    .stats-source-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 24px 0 16px;
-      padding-left: 4px;
-      border-left: 3px solid var(--accent);
-      padding-left: 12px;
     }
 
     .stats-cards {
@@ -186,11 +176,6 @@
         font-size: 24px;
       }
 
-      .stats-source-title {
-        font-size: 14px;
-        margin: 20px 0 12px;
-      }
-
       .stat-card {
         padding: 24px 20px;
       }
@@ -214,37 +199,9 @@
     <div class="stats-container">
       <header class="stats-header">
         <h1 class="stats-title">📊 访问统计</h1>
-        <p class="stats-subtitle">数据来源于 GitHub Pages Traffic API 与 不蒜子</p>
+        <p class="stats-subtitle">数据来源于 不蒜子</p>
       </header>
 
-      <h2 class="stats-source-title">GitHub Pages 统计</h2>
-      <div class="stats-cards">
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </div>
-          <div class="stat-value" id="ghPvValue">-</div>
-          <div class="stat-label">总访问量 (Views)</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-          <div class="stat-value" id="ghUvValue">-</div>
-          <div class="stat-label">独立访客 (Visitors)</div>
-        </div>
-      </div>
-
-      <h2 class="stats-source-title">不蒜子统计</h2>
       <div class="stats-cards">
         <div class="stat-card">
           <div class="stat-icon">
@@ -288,10 +245,8 @@
           数据说明
         </h2>
         <p>
-          本页面展示两组统计数据：<br><br>
-          <strong>GitHub Pages 统计</strong>：通过 GitHub Actions 每天从 GitHub Pages Traffic API 获取。
-          由于 GitHub API 仅提供最近 14 天的流量数据，统计数字会持续累加。<br><br>
-          <strong>不蒜子统计</strong>：从 <a href="https://busuanzi.ibruce.info/" target="_blank" style="color: var(--accent);">不蒜子</a> 获取的实时访问统计。
+          本页面展示的统计数据来源于 <a href="https://busuanzi.ibruce.info/" target="_blank" style="color: var(--accent);">不蒜子</a>，
+          提供网站的实时访问统计。
         </p>
       </div>
 
@@ -314,10 +269,6 @@
         if (res.ok) {
           const data = await res.json();
           
-          // GitHub Pages 数据
-          document.getElementById('ghPvValue').textContent = data.github?.total_views || 0;
-          document.getElementById('ghUvValue').textContent = data.github?.total_uniques || 0;
-          
           // 不蒜子数据
           document.getElementById('busuanziPvValue').textContent = data.busuanzi?.pv || 0;
           document.getElementById('busuanziUvValue').textContent = data.busuanzi?.uv || 0;
@@ -325,8 +276,6 @@
           document.getElementById('updateTime').textContent = data.updated_at || '-';
         }
       } catch (e) {
-        document.getElementById('ghPvValue').textContent = '加载失败';
-        document.getElementById('ghUvValue').textContent = '加载失败';
         document.getElementById('busuanziPvValue').textContent = '加载失败';
         document.getElementById('busuanziUvValue').textContent = '加载失败';
       }
