@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  metadata: read
 
 jobs:
   update-stats:
@@ -29,9 +30,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: github-stats
         run: |
-          # 获取仓库流量统计
-          VIEWS=$(gh api repos/${{ github.repository }}/traffic/views --jq '.count')
-          UNIQUES=$(gh api repos/${{ github.repository }}/traffic/views --jq '.uniques')
+          # 使用 curl 获取仓库流量统计
+          RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/traffic/views")
+          
+          VIEWS=$(echo "$RESPONSE" | jq -r '.count // 0')
+          UNIQUES=$(echo "$RESPONSE" | jq -r '.uniques // 0')
           
           echo "views=$VIEWS" >> $GITHUB_OUTPUT
           echo "uniques=$UNIQUES" >> $GITHUB_OUTPUT
