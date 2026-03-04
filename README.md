@@ -76,8 +76,13 @@ npm run start
 
 使用 `d` 参数传递 Base64 编码的 JSON 数据，链接更短更美观：
 
+本地部署
 ```
 index.html?d=eyJwIjowLCJsIjoiemgiLCJuIjoi5byg5LiJIiwiZiI6IuaWsOW5tOiKseWuieaYjSIsImZyIjoi5LyB5aSIIiwiZCI6NSwicyI6NSwiYyI6MSwidyI6MSwibyI6InZpZXcifQ
+```
+当前项目
+```
+https://chanyeesum.github.io/festival-greetings/?d=eyJwIjowLCJsIjoiemgiLCJuIjoi5byg5LiJIiwiZiI6IuaWsOW5tOiKseWuieaYjSIsImZyIjoi5LyB5aSIIiwiZCI6NSwicyI6NSwiYyI6MSwidyI6MSwibyI6InZpZXcifQ
 ```
 
 **JSON 键名映射**：
@@ -138,9 +143,18 @@ index.html?d=eyJwIjowLCJsIjoiemgiLCJuIjoi5byg5LiJIiwiZiI6IuaWsOW5tOiKseWuieaYjSI
 **爆炸效果**: `normal`(普通) `sparkle`(闪烁) `trail`(拖尾) `glow`(发光)
 
 **示例链接**：
+
+本地部署
 ```
-index.html?name=小明&festival=新年快乐&message=祝你每天开心&from=你的朋友
+index.html?name=小明&festival=新年快乐&message=祝你每天开心&from=你的朋友  
+
 index.html?lang=en&name=Mike&festival=圣诞快乐&from=Alice
+```
+当前项目
+```
+https://chanyeesum.github.io/festival-greetings/?name=小明&festival=新年快乐&message=祝你每天开心&from=你的朋友
+
+https://chanyeesum.github.io/festival-greetings/?lang=en&name=Mike&festival=圣诞快乐&from=Alice
 ```
 
 ### 动画设置
