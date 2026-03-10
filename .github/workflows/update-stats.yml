@@ -30,7 +30,7 @@ jobs:
       - name: Fetch and Update Stats
         env:
           SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-        run: node scripts/fetch-busuanzi.js
+        run: node scripts/persist-stats.js
 
       - name: Commit stats
         run: |

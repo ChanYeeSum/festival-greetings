@@ -17,15 +17,23 @@ async function fetchBusuanziStats() {
 
   try {
     const page = await browser.newPage();
-    await page.setDefaultTimeout(60000);
+    await page.setDefaultTimeout(30000);
 
     console.log(`Fetching page: ${pageUrl}`);
-    await page.goto(pageUrl, { waitUntil: 'networkidle2', timeout: 60000 });
+
+    // 使用 domcontentloaded 而不是 networkidle2，更快完成页面加载
+    // 因为不蒜子脚本是异步加载的，我们只需要 DOM 准备好
+    await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+    // 等待页面基本渲染完成
+    await page.waitForSelector('#busuanzi_value_site_pv', { timeout: 5000 }).catch(() => {
+      console.log('Initial selector wait done (may not have data yet)');
+    });
 
     let pv = null;
     let uv = null;
     let retries = 0;
-    const maxRetries = 15;
+    const maxRetries = 20;
 
     while (retries < maxRetries) {
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -42,7 +50,7 @@ async function fetchBusuanziStats() {
       console.log(`[${retries}s] PV: "${pv}", UV: "${uv}"`);
 
       if (pv !== null && uv !== null && pv !== '' && uv !== '' &&
-          !isNaN(parseInt(pv, 10)) && !isNaN(parseInt(uv, 10))) {
+        !isNaN(parseInt(pv, 10)) && !isNaN(parseInt(uv, 10))) {
         console.log('Busuanzi data loaded successfully!');
         break;
       }
