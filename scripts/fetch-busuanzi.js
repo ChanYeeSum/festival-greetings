@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
 async function fetchBusuanziStats() {
   const pageUrl = process.env.SITE_URL || 'https://chanyeesum.github.io/festival-greetings/';
@@ -57,7 +59,6 @@ async function fetchBusuanziStats() {
 
     // 使用 GITHUB_OUTPUT 环境文件（新版 GitHub Actions）
     if (process.env.GITHUB_OUTPUT) {
-      const fs = require('fs');
       fs.appendFileSync(process.env.GITHUB_OUTPUT, `pv=${result.pv}\n`);
       fs.appendFileSync(process.env.GITHUB_OUTPUT, `uv=${result.uv}\n`);
     }
@@ -72,15 +73,32 @@ async function fetchBusuanziStats() {
   }
 }
 
-fetchBusuanziStats().catch(err => {
-  console.error('Error:', err.message);
-  // 即使出错也输出默认值，避免后续脚本失败
-  const result = { pv: 0, uv: 0 };
-  console.log(`BUSUANZI_JSON=${JSON.stringify(result)}`);
-  if (process.env.GITHUB_OUTPUT) {
-    const fs = require('fs');
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `pv=0\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `uv=0\n`);
+function updateStatsFile(pv, uv) {
+  const statsPath = path.join(__dirname, '..', 'stats.json');
+  const today = new Date().toISOString().split('T')[0];
+
+  const stats = {
+    busuanzi: {
+      pv: pv,
+      uv: uv
+    },
+    updated_at: today
+  };
+
+  fs.writeFileSync(statsPath, JSON.stringify(stats, null, 2) + '\n');
+  console.log(`Stats file updated: ${statsPath}`);
+  console.log(JSON.stringify(stats, null, 2));
+}
+
+async function main() {
+  try {
+    const result = await fetchBusuanziStats();
+    updateStatsFile(result.pv, result.uv);
+  } catch (err) {
+    console.error('Error:', err.message);
+    // 即使出错也写入默认值，避免后续脚本失败
+    updateStatsFile(0, 0);
   }
-  process.exit(0);  // 正常退出，避免 workflow 失败
-});
+}
+
+main();

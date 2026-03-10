@@ -27,64 +27,22 @@ jobs:
       - name: Install Puppeteer
         run: npm install puppeteer
 
-      - name: Fetch Busuanzi Stats
-        id: busuanzi-stats
+      - name: Fetch and Update Stats
         env:
           SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-        run: |
-          node scripts/fetch-busuanzi.js 2>&1 | tee busuanzi_output.txt
-
-          # 从输出中提取 JSON
-          BUSUANZI_DATA=$(grep "BUSUANZI_JSON=" busuanzi_output.txt | cut -d'=' -f2)
-          echo "busuanzi_data=$BUSUANZI_DATA" >> $GITHUB_OUTPUT
-          echo "Busuanzi data: $BUSUANZI_DATA"
-
-      - name: Update stats.json
-        run: |
-          # 获取今日日期
-          TODAY=$(date -u +"%Y-%m-%d")
-
-          # 不蒜子数据 - 使用 jq 确保有效数值
-          BUSUANZI_DATA='${{ steps.busuanzi-stats.outputs.busuanzi_data }}'
-
-          # 检查数据是否有效
-          if [ -z "$BUSUANZI_DATA" ] || [ "$BUSUANZI_DATA" = "null" ]; then
-            echo "Warning: No valid busuanzi data, using defaults"
-            BUSUANZI_DATA='{"pv":0,"uv":0}'
-          fi
-
-          BUSUANZI_PV=$(echo "$BUSUANZI_DATA" | jq -r '.pv // 0')
-          BUSUANZI_UV=$(echo "$BUSUANZI_DATA" | jq -r '.uv // 0')
-
-          # 确保是数字
-          if ! [[ "$BUSUANZI_PV" =~ ^[0-9]+$ ]]; then
-            BUSUANZI_PV=0
-          fi
-          if ! [[ "$BUSUANZI_UV" =~ ^[0-9]+$ ]]; then
-            BUSUANZI_UV=0
-          fi
-
-          # 生成 stats.json
-          cat > stats.json << EOF
-          {
-            "busuanzi": {
-              "pv": $BUSUANZI_PV,
-              "uv": $BUSUANZI_UV
-            },
-            "updated_at": "$TODAY"
-          }
-          EOF
-
-          echo "Stats updated:"
-          cat stats.json
-
-          # 验证 JSON 格式
-          jq . stats.json
+        run: node scripts/fetch-busuanzi.js
 
       - name: Commit stats
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add stats.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update page views stats [skip ci]"
+
+          # 检查是否有变化需要提交
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update page views stats [skip ci]"
           git push
