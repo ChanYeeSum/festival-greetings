@@ -1,0 +1,49 @@
+name: Periodically Update Stats
+
+on:
+  schedule:
+    # 每 6 小时执行一次（UTC 0, 6, 12, 18 点）
+    # 对应北京时间 8, 14, 20, 次日2点
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/update-stats-periodically.yml', 'scripts/persist-stats.js']
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Puppeteer
+        run: npm install puppeteer
+
+      - name: Fetch and Persist Stats
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+        run: node scripts/persist-stats.js
+
+      - name: Commit stats
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add stats.json
+
+          # 检查是否有变化需要提交
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update page views stats [skip ci]"
+          git push
