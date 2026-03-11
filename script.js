@@ -1107,19 +1107,52 @@ function exportCardAsImage() {
   // 水印
   exportCtx.font = "12px system-ui, -apple-system, sans-serif";
   exportCtx.fillStyle = "rgba(156, 163, 175, 0.5)";
-  exportCtx.fillText("节日烟花祝福", cardWidth / 2, cardHeight - 20);
+ exportCtx.fillText("节日烟花祝福", cardWidth / 2, cardHeight - 20);
 
-  // 下载图片
-  const link = document.createElement("a");
-  link.download = `祝福卡片_${Date.now()}.png`;
-  link.href = exportCanvas.toDataURL("image/png");
-  link.click();
+ // 下载图片 - 兼容移动端
+ const dataUrl = exportCanvas.toDataURL("image/png");
+ const filename = `祝福卡片_${Date.now()}.png`;
 
-  // 按钮反馈
-  const btn = document.getElementById("exportBtn");
-  if (btn) {
-    showToast(getText("toast.exported"));
-  }
+ // 检测是否为移动设备
+ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+ if (isMobile) {
+ // 移动端：尝试使用 Web Share API 或打开新窗口
+ if (navigator.share && navigator.canShare) {
+ fetch(dataUrl)
+ .then(res => res.blob())
+ .then(blob => {
+ const file = new File([blob], filename, { type: "image/png" });
+ navigator.share({
+ files: [file],
+ title: "祝福卡片",
+ text: "来自节日烟花祝福"
+ }).catch(() => {
+ window.open(dataUrl, "_blank");
+ });
+ })
+ .catch(() => {
+ window.open(dataUrl, "_blank");
+ });
+ } else {
+ // 不支持 Share API，直接打开图片让用户长按保存
+ window.open(dataUrl, "_blank");
+ }
+ } else {
+ // 桌面端：使用传统下载方式
+ const link = document.createElement("a");
+ link.download = filename;
+ link.href = dataUrl;
+ document.body.appendChild(link);
+ link.click();
+ document.body.removeChild(link);
+ }
+
+ // 按钮反馈
+ const btn = document.getElementById("exportBtn");
+ if (btn) {
+ showToast(getText("toast.exported"));
+ }
 }
 
 // -------- 二维码生成 --------

@@ -268,11 +268,23 @@
         const res = await fetch('./stats.json?t=' + Date.now());
         if (res.ok) {
           const data = await res.json();
-          
-          // 不蒜子数据
-          document.getElementById('busuanziPvValue').textContent = data.busuanzi?.pv || 0;
-          document.getElementById('busuanziUvValue').textContent = data.busuanzi?.uv || 0;
-          
+
+          // 兼容新旧两种格式
+          // 新格式: { latest: { pv, uv }, history: {...}, updated_at }
+          // 旧格式: { busuanzi: { pv, uv }, updated_at }
+          let pv, uv;
+
+          if (data.latest) {
+            pv = data.latest.pv;
+            uv = data.latest.uv;
+          } else if (data.busuanzi) {
+            pv = data.busuanzi.pv;
+            uv = data.busuanzi.uv;
+          }
+
+          document.getElementById('busuanziPvValue').textContent = pv ?? 0;
+          document.getElementById('busuanziUvValue').textContent = uv ?? 0;
+
           document.getElementById('updateTime').textContent = data.updated_at || '-';
         }
       } catch (e) {

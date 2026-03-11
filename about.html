@@ -6,364 +6,845 @@
   <title>关于 - 节日烟花祝福</title>
   <link rel="icon" type="image/x-icon" href="./assert/icon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="./assert/icon.png" />
-  <link rel="stylesheet" href="./style.css" />
+  <!-- 引入高端字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    /* ========== 商业化设计系统 ========== */
+    :root {
+      /* 高级深邃配色 */
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: rgba(22, 22, 32, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+
+      /* 璀璨金色主色系 */
+      --gold-primary: #d4af37;
+      --gold-light: #f4e4bc;
+      --gold-glow: rgba(212, 175, 55, 0.4);
+      --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f4e4bc 50%, #d4af37 100%);
+
+      /* 点缀色：温暖橙红 */
+      --accent: #e07a3d;
+      --accent-soft: rgba(224, 122, 61, 0.6);
+
+      /* 文字层次 */
+      --text-primary: #f5f5f7;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.45);
+
+      /* 边框与阴影 */
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(212, 175, 55, 0.25);
+      --shadow-elevated: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 60px rgba(212, 175, 55, 0.15);
+
+      /* 间距系统 */
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+
+      /* 圆角系统 */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      overflow: auto !important;
+      height: auto !important;
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* 背景层：深邃夜空 + 星光点缀 */
+    body {
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(224, 122, 61, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      min-height: 100vh;
+    }
+
+    /* 页面容器 */
     .about-page {
       min-height: 100vh;
-      padding: 60px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      padding: var(--space-lg) var(--space-md) var(--space-xl);
+      position: relative;
+    }
+
+    /* 背景装饰：漂浮光点 */
+    .about-page::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(212,175,55,0.3), transparent),
+        radial-gradient(2px 2px at 80% 20%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 40% 70%, rgba(212,175,55,0.4), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(2px 2px at 60% 80%, rgba(224,122,61,0.3), transparent);
+      pointer-events: none;
+      z-index: 0;
+      animation: twinkle 8s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
     .about-container {
-      max-width: 800px;
-      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
-    .about-header {
+    /* ========== Hero Section ========== */
+    .hero-section {
       text-align: center;
-      margin-bottom: 48px;
+      padding: var(--space-xl) var(--space-md);
+      margin-bottom: var(--space-xl);
     }
 
-    .about-logo {
-      font-size: 32px;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-      color: #fbbf24;
-      text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
-      margin-bottom: 16px;
+    .hero-card {
+      display: inline-block;
+      padding: 48px 56px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
     }
 
-    .about-tagline {
-      font-size: 18px;
-      color: var(--text-muted);
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+      animation: subtle-rotate 20s linear infinite;
     }
 
-    .about-section {
-      background: rgba(15, 23, 42, 0.78);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(18px);
+    @keyframes subtle-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    .about-section h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 0 0 16px;
+    .hero-logo {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 28px;
+      background: var(--gold-gradient);
+      border-radius: 26px;
       display: flex;
       align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 8px 32px rgba(212, 175, 55, 0.35),
+        0 0 60px rgba(212, 175, 55, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      animation: float-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes float-glow {
+      0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35), 0 0 60px rgba(212, 175, 55, 0.15);
+      }
+      50% {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px rgba(212, 175, 55, 0.45), 0 0 80px rgba(212, 175, 55, 0.25);
+      }
+    }
+
+    .hero-logo svg {
+      width: 42px;
+      height: 42px;
+      fill: #1a1a1a;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .hero-title {
+      position: relative;
+      font-family: 'Playfair Display', 'Noto Sans SC', serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+
+    .hero-tagline {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
       gap: 10px;
-    }
-
-    .about-section p {
+      padding: 16px 36px;
+      background: var(--gold-gradient);
+      color: #1a1a1a;
       font-size: 15px;
-      line-height: 1.8;
-      color: var(--text-main);
-      margin: 0 0 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+      position: relative;
+      overflow: hidden;
     }
 
-    .about-section p:last-child {
-      margin-bottom: 0;
+    .hero-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
     }
 
-    .feature-list {
+    .hero-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .hero-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    .hero-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #1a1a1a;
+    }
+
+    /* ========== 通用区块标题 ========== */
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--gold-gradient);
+      border-radius: 2px;
+    }
+
+    .section-title svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--gold-primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* ========== 预览展示区 ========== */
+    .preview-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .preview-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    .preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .preview-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      padding: 1px;
+      background: linear-gradient(135deg, transparent 40%, var(--gold-glow) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .preview-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-elevated), var(--shadow-glow);
+      border-color: var(--border-glow);
+    }
+
+    .preview-card:hover::after {
+      opacity: 1;
+    }
+
+    .preview-image-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .preview-card:hover .preview-image {
+      transform: scale(1.05);
+    }
+
+    .preview-content {
+      padding: 20px;
+    }
+
+    .preview-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .preview-content p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ========== 功能特色区 ========== */
+    .feature-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .feature-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 40px;
+      right: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
     }
 
     .feature-item {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      background: rgba(30, 41, 59, 0.6);
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      gap: 14px;
+      padding: 20px;
+      background: var(--bg-glass);
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-subtle);
+      transform: translateY(-2px);
     }
 
     .feature-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(248, 171, 94, 0.2), rgba(249, 115, 22, 0.2));
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+      border: 1px solid rgba(212, 175, 55, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .feature-item:hover .feature-icon {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
     }
 
     .feature-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--accent);
+      width: 22px;
+      height: 22px;
+      stroke: var(--gold-primary);
+      stroke-width: 1.5;
+      fill: none;
     }
 
-    .feature-content h3 {
-      font-size: 14px;
+    .feature-text h3 {
+      font-size: 15px;
       font-weight: 600;
-      margin: 0 0 4px;
-      color: var(--text-main);
+      color: var(--text-primary);
+      margin-bottom: 5px;
     }
 
-    .feature-content p {
+    .feature-text p {
       font-size: 12px;
       color: var(--text-muted);
       margin: 0;
       line-height: 1.5;
     }
 
-    .tech-stack {
+    /* ========== 快捷链接区 ========== */
+    .links-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+
+    .link-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 28px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold-gradient);
+      transform: scaleX(0);
+      transition: transform 0.35s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-elevated);
+    }
+
+    .link-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .link-card svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--gold-primary);
+      stroke-width: 1.5;
+      fill: none;
+      transition: all 0.3s ease;
+    }
+
+    .link-card:hover svg {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+
+    .link-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .link-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* ========== 技术栈展示 ========== */
+    .tech-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      text-align: center;
+      margin-bottom: var(--space-xl);
+      position: relative;
+    }
+
+    .tech-section .section-title {
+      justify-content: center;
+    }
+
+    .tech-desc {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .tech-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+      justify-content: center;
+      gap: 12px;
     }
 
     .tech-tag {
-      padding: 6px 14px;
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      border-radius: 20px;
+      padding: 10px 22px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
     }
 
+    .tech-tag:hover {
+      border-color: var(--border-glow);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    /* ========== 页脚 ========== */
     .about-footer {
       text-align: center;
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--border-subtle);
     }
 
     .about-footer p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin: 0 0 16px;
-    }
-
-    .btn-home {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
-      color: #111827;
       font-size: 14px;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .about-footer a {
+      color: var(--gold-primary);
       text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
+      transition: all 0.25s ease;
     }
 
-    .btn-home:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(248, 171, 94, 0.5);
+    .about-footer a:hover {
+      color: var(--gold-light);
+      text-shadow: 0 0 12px var(--gold-glow);
     }
 
-    @media (max-width: 768px) {
+    /* ========== 响应式设计 ========== */
+    @media (max-width: 900px) {
+      .preview-grid, .feature-grid, .links-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
       .about-page {
-        padding: 40px 16px;
+        padding: var(--space-md) var(--space-sm) var(--space-lg);
       }
 
-      .about-header {
-        margin-bottom: 32px;
+      .hero-card {
+        padding: 32px 24px;
+        border-radius: var(--radius-lg);
       }
 
-      .about-logo {
+      .hero-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        margin-bottom: 22px;
+      }
+
+      .hero-logo svg {
+        width: 34px;
+        height: 34px;
+      }
+
+      .hero-title {
         font-size: 24px;
       }
 
-      .about-tagline {
-        font-size: 15px;
+      .hero-tagline {
+        font-size: 14px;
       }
 
-      .about-section {
-        padding: 20px;
-        border-radius: 16px;
+      .hero-btn {
+        padding: 14px 28px;
+        font-size: 14px;
       }
 
-      .about-section h2 {
-        font-size: 17px;
-      }
-
-      .feature-list {
+      .preview-grid, .feature-grid, .links-section {
         grid-template-columns: 1fr;
       }
+
+      .preview-image {
+        height: 160px;
+      }
+
+      .feature-section, .tech-section {
+        padding: var(--space-md);
+        border-radius: var(--radius-lg);
+      }
+
+      .section-title {
+        font-size: 18px;
+      }
     }
+
+    /* ========== 滚动动画 ========== */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .preview-card:nth-child(1), .feature-item:nth-child(1), .link-card:nth-child(1) { transition-delay: 0.1s; }
+    .preview-card:nth-child(2), .feature-item:nth-child(2), .link-card:nth-child(2) { transition-delay: 0.2s; }
+    .preview-card:nth-child(3), .feature-item:nth-child(3), .link-card:nth-child(3) { transition-delay: 0.3s; }
   </style>
 </head>
 <body>
   <div class="about-page">
     <div class="about-container">
-      <header class="about-header">
-        <div class="about-logo">✦ 节日烟花祝福 ✦</div>
-        <p class="about-tagline">为特别的TA，送上一份璀璨的祝福</p>
-      </header>
 
-      <section class="about-section">
-        <h2>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 16v-4M12 8h.01"/>
-          </svg>
-          项目简介
-        </h2>
-        <p>
-          节日烟花祝福是一个开源的在线祝福生成器，让用户可以轻松创建精美的节日祝福卡片并分享给亲朋好友。
-        </p>
-        <p>
-          支持多种节日主题（新年、春节、中秋、情人节等），配合绚丽的烟花动画效果，让每一份祝福都独一无二。
-        </p>
+      <!-- Hero Section -->
+      <section class="hero-section fade-in-up">
+        <div class="hero-card">
+          <div class="hero-logo">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/>
+            </svg>
+          </div>
+          <h1 class="hero-title">节日烟花祝福</h1>
+          <p class="hero-tagline">为特别的TA，送上一份璀璨的数字礼物</p>
+          <a href="./index.html" class="hero-btn">
+            <svg viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            立即开始制作
+          </a>
+        </div>
       </section>
 
-      <section class="about-section">
-        <h2>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Preview Section -->
+      <section class="preview-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          界面预览
+        </h2>
+        <div class="preview-grid">
+          <div class="preview-card fade-in-up">
+            <div class="preview-image-container">
+              <img src="./pic/编辑页面.png" alt="编辑页面" class="preview-image" loading="lazy">
+            </div>
+            <div class="preview-content">
+              <h3>自定义祝福</h3>
+              <p>支持多种节日主题，自由定制祝福内容和动画效果</p>
+            </div>
+          </div>
+          <div class="preview-card fade-in-up">
+            <div class="preview-image-container">
+              <img src="./pic/分享页面.png" alt="分享页面" class="preview-image" loading="lazy">
+            </div>
+            <div class="preview-content">
+              <h3>精美展示</h3>
+              <p>绚丽烟花动画效果，让祝福更有仪式感</p>
+            </div>
+          </div>
+          <div class="preview-card fade-in-up">
+            <div class="preview-image-container">
+              <img src="./pic/二维码海报下载页面.png" alt="二维码海报" class="preview-image" loading="lazy">
+            </div>
+            <div class="preview-content">
+              <h3>一键分享</h3>
+              <p>生成专属链接或二维码海报，轻松分享给朋友</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Links Section -->
+      <section class="links-section">
+        <a href="./index.html" class="link-card fade-in-up">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <h3>制作祝福</h3>
+          <p>开始创建专属祝福</p>
+        </a>
+        <a href="./stats.html" class="link-card fade-in-up">
+          <svg viewBox="0 0 24 24">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <h3>访问统计</h3>
+          <p>查看网站访问数据</p>
+        </a>
+        <a href="https://github.com/ChanYeeSum/festival-greetings" target="_blank" rel="noopener" class="link-card fade-in-up">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <h3>GitHub</h3>
+          <p>查看源码，欢迎 Star</p>
+        </a>
+      </section>
+
+      <!-- Feature Section -->
+      <section class="feature-section fade-in-up">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
           功能特色
         </h2>
-        <div class="feature-list">
-          <div class="feature-item">
+        <div class="feature-grid">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 3v18M5.5 8.5l13-5M18.5 15.5l-13 5"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M12 3v18M5.5 8.5l13-5M18.5 15.5l-13 5"/></svg>
             </div>
-            <div class="feature-content">
-              <h3>烟花动画</h3>
-              <p>Canvas 绘制的绚丽烟花，支持自定义密度和效果</p>
+            <div class="feature-text">
+              <h3>绚丽烟花动画</h3>
+              <p>Canvas 绘制的烟花效果，支持多种形状和爆炸特效</p>
             </div>
           </div>
-          <div class="feature-item">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
-            <div class="feature-content">
+            <div class="feature-text">
               <h3>多节日主题</h3>
               <p>新年、春节、中秋、情人节等多种节日风格</p>
             </div>
           </div>
-          <div class="feature-item">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             </div>
-            <div class="feature-content">
-              <h3>链接分享</h3>
-              <p>生成专属链接，支持 Base64 编码，更短更美观</p>
+            <div class="feature-text">
+              <h3>一键分享</h3>
+              <p>生成专属链接或二维码，轻松分享给朋友</p>
             </div>
           </div>
-          <div class="feature-item">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="6" height="6" rx="1"/>
-                <rect x="15" y="3" width="6" height="6" rx="1"/>
-                <rect x="3" y="15" width="6" height="6" rx="1"/>
-                <rect x="15" y="15" width="4" height="4"/>
-                <rect x="17" y="11" width="4" height="4"/>
-                <rect x="11" y="17" width="4" height="4"/>
-                <rect x="11" y="11" width="2" height="2"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="4" height="4"/><rect x="17" y="11" width="4" height="4"/><rect x="11" y="17" width="4" height="4"/><rect x="11" y="11" width="2" height="2"/></svg>
             </div>
-            <div class="feature-content">
-              <h3>二维码分享</h3>
-              <p>生成二维码，方便扫码查看祝福</p>
+            <div class="feature-text">
+              <h3>二维码海报</h3>
+              <p>生成精美二维码海报，方便扫码查看</p>
             </div>
           </div>
-          <div class="feature-item">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>
             </div>
-            <div class="feature-content">
-              <h3>动画设置</h3>
-              <p>自定义烟花密度、星空亮度等效果</p>
+            <div class="feature-text">
+              <h3>自定义动画</h3>
+              <p>调节烟花密度、星空亮度，打造独特效果</p>
             </div>
           </div>
-          <div class="feature-item">
+          <div class="feature-item fade-in-up">
             <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg>
             </div>
-            <div class="feature-content">
+            <div class="feature-text">
               <h3>多语言支持</h3>
-              <p>支持中文和英文，随时切换</p>
+              <p>支持中文和英文，随时切换界面语言</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="about-section">
-        <h2>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="16 18 22 12 16 6"/>
-            <polyline points="8 6 2 12 8 18"/>
-          </svg>
+      <!-- Tech Section -->
+      <section class="tech-section fade-in-up">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           技术栈
         </h2>
-        <p>本项目采用纯前端技术实现，无需后端服务，部署简单。</p>
-        <div class="tech-stack">
+        <p class="tech-desc">本项目采用纯前端技术实现，无需后端服务，部署简单。</p>
+        <div class="tech-tags">
           <span class="tech-tag">HTML5</span>
           <span class="tech-tag">CSS3</span>
           <span class="tech-tag">JavaScript</span>
           <span class="tech-tag">Canvas</span>
-          <span class="tech-tag">Base64</span>
           <span class="tech-tag">GitHub Pages</span>
         </div>
       </section>
 
-      <section class="about-section">
-        <h2>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-          </svg>
-          URL 参数格式
-        </h2>
-        <p>
-          分享链接支持两种格式：<strong>Base64 编码格式</strong>（推荐）和<strong>普通参数格式</strong>（兼容旧版）。
-        </p>
-        <p>
-          Base64 编码格式将所有参数压缩为一个短字符串，链接更短更美观，特别适合在社交平台分享。
-        </p>
-        <p style="font-size: 12px; color: rgba(148, 163, 184, 0.8); font-family: monospace; background: rgba(30, 41, 59, 0.6); padding: 12px; border-radius: 8px; margin-top: 12px; word-break: break-all;">
-          ?d=eyJwIjowLCJsIjoiemgiLCJuIjoi5byg5LiJIiwiZiI6IuaWsOW5tOiKseWuieaYjSJ9
-        </p>
-      </section>
-
-      <footer class="about-footer">
+      <!-- Footer -->
+      <footer class="about-footer fade-in-up">
+        <p>Made with ❤️ by <a href="https://github.com/ChanYeeSum" target="_blank" rel="noopener">ChanYeeSum</a></p>
         <p>开源项目，欢迎 Star ⭐</p>
-        <a href="./index.html" class="btn-home">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          开始制作祝福
-        </a>
       </footer>
+
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
